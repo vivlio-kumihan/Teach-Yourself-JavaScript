@@ -11,9 +11,10 @@ body {
 }
 
 #container {
-  max-width: 600px;
+  max-width: 900px;
+  height: 100vh;
   margin: 5rem auto;
-  padding: 1rem;
+  padding: 2rem;
   background-color: #eee;
   border-radius: .3rem;
 }
