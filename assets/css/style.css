@@ -12,18 +12,72 @@ body {
 
 #container {
   max-width: 900px;
-  height: 100vh;
   margin: 5rem auto;
-  padding: 2rem;
-  font-size: 1.2rem;
-  font-weight: 500;
-  text-align: center;
+  padding: 1rem;
   background-color: #eee;
   border-radius: .3rem;
 }
 
-:lang(en) {
-  font-family: 'Inter', sans-serif;
-  font-size: 1.3rem;
-  font-weight: 500;
+.unit:not(:first-of-type) {
+  margin-top: 3rem;
+  padding: 2rem;
+  border-top: 1px dotted #333;
+
+}
+
+dl {
+  width: 40%;
+  margin: 0 auto;
+}
+
+dl:not(:first-of-type) {
+  margin-top: 2rem;
+}
+
+.select-wrapper {
+  position: relative;
+  margin: .5rem 0 1rem;
+}
+
+.select-wrapper.single::after {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 1rem;
+
+  content: "\f13a";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  font-size: 1.5rem;
+  pointer-events: none;
+}
+
+select {
+  display: block;
+  width: 100%;
+  padding: .5rem 1rem;
+  font-weight: 700;
+  background-color: #fff;
+  border-radius: .3rem;
+}
+
+select:focus-visible {
+  outline: none;
+}
+
+.result {
+  text-align: center;
+  padding: .5rem;
+  font-size: .9rem;
+  font-weight: 700;
+  background-color: #ddd;
+  border-radius: .3rem;
+}
+
+.result>input {
+  width: 80%;
+  margin: .5rem;
+  padding: .2rem;
+  background-color: #fff;
+  border-radius: .3rem;
 }

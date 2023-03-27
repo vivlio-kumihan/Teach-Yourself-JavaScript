@@ -1,25 +1,47 @@
-// Nodeを抽出する。
-// 複数ある場合は最初に引っかかったNodeを抽出物する。
-const lang = document.querySelector(":lang(en)")
-console.log(lang)
+// 要素を取るやり方
+const os = document.getElementById("os")
+let options = os.children
+console.log(options)  // => HTMLCollection!!!
+// ここでのoptionsは『HTMLCollection』なので『forEach』は使えない。
+// options.forEach(opt => {
+//   console.log(opt.value)
+// })
 
-// NodeListを抽出する。
-const anchors = document.querySelectorAll(".external")
-
-// メンバーで値を参照する。
-// Listの長さ
-console.log(anchors.length)
-// Listのインデックス番号で参照
-console.log(anchors.item(1))
-// 参照したインスタンスの属性を参照
-console.log(anchors.item(1).href)
-console.log(anchors[1].href)
-// entries(), keys(), values()については値が取れない。
-console.log(anchors.entries())
-console.log(anchors.keys())
-console.log(anchors.values())
-
-// for...of listsでの処理
-for(ac of anchors) {
-  console.log(ac.href)
+for (let opt of options) {
+  console.log(opt.value)
 }
+
+// -----
+
+// // Nodeを取るやり方　要素だけを取りたい場合に注意が必要。
+// const os = document.querySelector("#os")
+// let options = os.childNodes
+// // この場合は、改行と要素を取る。
+// // なので条件分けで要素だけを抽出する。
+// // なお、ここでのoptionsは『NodeList』なので『forEach』で回せる。
+
+// // forEach
+// console.log(options)
+// options.forEach(elem => {
+//   if (elem.nodeType === 1) {
+//     console.log(elem.value)
+// }
+// })
+
+// for
+// for (let opt of options) {
+//   // console.log(opt)
+//   if (opt.nodeType === 1) {
+//     console.log(opt.value)
+//   }
+// }
+
+// -----
+
+// // firstElementChild, nextElementSiblingプロパティを使うやり方
+// const os = document.getElementById("os")
+// let child = os.firstElementChild
+// while (child) {
+//   console.log(child.value)
+//   child = child.nextElementSibling
+// }
