@@ -1,16 +1,12 @@
-// 画像にマウスをかざしたら別画像に切り替える。
-const pic = document.getElementById("cover")
-pic.addEventListener("mouseenter", function() {
-  this.src = "../img/p2.jpg"
-}, false)
+const img = document.querySelector("#logo")
+const attrs = img.attributes
 
-// マウスが画像から別画像に切り替える。
-pic.addEventListener("mouseleave", function() {
-  this.src = "../img/p3.jpg"
-}, false)
+// いま扱えるNamedNodeMapのメンバー（他にも多数あり...）
+console.log(attrs.length)
+console.log(attrs.getNamedItem("id"))
+console.log(attrs.item(1))
 
-// anchorをクリックしたら別窓でURLを開く。
-const link = document.getElementById("site")
-link.addEventListener("click", function() {
-  this.setAttribute("target", "_blank")
-}, false)
+// HTMLCollectionと同様にforEachでは回せない。
+for (att of attrs) {
+  console.log(att.name + "=>" + att.value)
+}

@@ -11,7 +11,7 @@ body {
 }
 
 #container {
-  max-width: 900px;
+  max-width: 300px;
   margin: 5rem auto;
   padding: 1rem;
   background-color: #eee;
