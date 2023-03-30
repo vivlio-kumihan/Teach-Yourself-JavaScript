@@ -1,12 +1,11 @@
-const img = document.querySelector("#logo")
-const attrs = img.attributes
-
-// いま扱えるNamedNodeMapのメンバー（他にも多数あり...）
-console.log(attrs.length)
-console.log(attrs.getNamedItem("id"))
-console.log(attrs.item(1))
-
-// HTMLCollectionと同様にforEachでは回せない。
-for (att of attrs) {
-  console.log(att.name + "=>" + att.value)
+// // #1 .hasAttribute()で条件分岐で抽出して.setAttributeで属性の設定
+const images = document.querySelectorAll("dd > img")
+for (img of images) {
+  if (!img.hasAttribute("src")) {
+    img.setAttribute("src", "../img/p1.jpg")
+  }
 }
+    
+// #2 インデックスが分かっているならNamedNodeMapから直接設定。まぁ、ないな。
+// const images = document.querySelectorAll("dd > img")
+// images.item(1).setAttribute("src", "../img/p1.jpg")
