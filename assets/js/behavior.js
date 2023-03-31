@@ -1,25 +1,19 @@
-const images = document.querySelectorAll("img")
-for (image of images) {
-  if (!image.hasAttribute("src")) {
-    // image.setAttribute("src", "../img/p1.jpg")
-    image.src = "../img/p1.jpg"
-  }
+let figs = document.querySelectorAll("figure")
+
+for (fig of figs) {
+  fig.addEventListener("mouseenter", function () {
+    console.log("enter!")
+    console.log(this.firstElementChild)
+    this.classList.add("border-none")
+    this.firstElementChild.classList.add("active")
+    this.lastElementChild.classList.add("disappear")
+  }, false)
+  
+  fig.addEventListener("mouseleave", function () {
+    console.log("leave!")
+    console.log(this.firstElementChild)
+    this.classList.remove("border-none")
+    this.firstElementChild.classList.remove("active")
+    this.lastElementChild.classList.remove("disappear")
+  }, false)
 }
-
-const links = document.querySelectorAll("dd > a")
-for (link of links)  {
-  if (!link.hasAttribute("target")) {
-    link.addEventListener("click", function() {
-      // this.setAttribute("target", "_blank")
-      this.target = "_blank"
-    }, false)
-  }
-}
-
-const email = document.getElementById("email")
-document.querySelector(".item.five > input").addEventListener("click", function() {
-  console.log(email.value)
-  console.log(email.getAttribute("value"))
-}, false)
-
-
