@@ -15,24 +15,22 @@
 </head>
 <body>
   <div id="container">
-    <dl class="wrapper">
-      <figure>
-        <img class="bird-pic" src="./assets/img/p1.jpg" alt="bird picture #1">
-        <figcaption>Bird1</figcaption>
-      </figure>
-      <figure>
-        <img class="bird-pic" src="./assets/img/p2.jpg" alt="bird picture #2">
-        <figcaption>Bird2</figcaption>
-      </figure>
-      <figure>
-        <img class="bird-pic" src="./assets/img/p3.jpg" alt="bird picture #3">
-        <figcaption>Bird3</figcaption>
-      </figure>
-      <figure>
-        <img class="bird-pic" src="./assets/img/p4.jpg" alt="bird picture #4">
-        <figcaption>Bird4</figcaption>
-      </figure>
-    </dl>
+    <form action="" method="post" name="">
+      <dl class="wrapper">
+        <dt>
+          <label for="title">site:</label>
+          <input type="text" id="title" name="title">
+        </dt>
+        <dd>
+          <label for="url">url:</label>
+          <input type="url" id="url" name="url">
+        </dd>
+        <dd>
+          <input type="button" id="btn" value="追　加">
+        </dd>
+      </dl>
+    </form>
+    <ul id="book-list"></ul>
   </div>
 </body>
 </html>
