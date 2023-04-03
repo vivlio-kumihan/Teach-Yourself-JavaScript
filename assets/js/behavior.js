@@ -1,24 +1,25 @@
-const books = [
-  { title: 'ゼロからわかる TypeScript入門', price: 2948 },
-  { title: 'Bootstrap 5の教科書', price: 3828 },
-  { title: 'はじめてのAndroidアプリ開発', price: 3520 },
-]
+const list = document.querySelectorAll("#list a")
+let pic = document.getElementById("pic")
+const del = document.getElementById("delete")
 
-const list = document.getElementById("list")
+for (let li of list) {
+  li.addEventListener("click", function() {
+    let isbn = this.getAttribute("data-isbn")
+    if (isbn) {
+      let img = document.createElement("img")
+      img.src = `https://wings.msn.to/books/${ isbn }/${ isbn }.jpg`
+      img.alt = this.textContent
+      if (pic.querySelector("img")) {
+        pic.replaceChild(img, pic.lastChild)
+      } else {
+        del.disabled = false
+        pic.append(img)
 
-// 配列をfor ofで回すやり方は、描画環境のパフォーマンスを考えると控えるべき。
-// for (book of books) {
-//   let li = document.createElement("li")
-//   li.textContent = `${ book.title } => ${ book.price }円`
-//   list.append(li)
-// }
+      }
 
-// 対策 => document.createDocumentFragmane()を使う。
-let frag = document.createDocumentFragment()
-for (book of books) {
-  let li = document.createElement("li")
-  li.textContent = `${ book.title } => ${ book.price }円`
-  frag.append(li)
+    }
+    // console.log(isbn)
+
+  }, false)
+
 }
-
-list.append(frag)
