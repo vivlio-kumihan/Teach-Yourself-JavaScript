@@ -1,19 +1,14 @@
-// NodeList
-let list = document.getElementById("list")
+let query = document.getElementById("query")
+let reply = document.getElementById("reply")
 
-let liHtmlCollection = list.children
-let liNodeList = document.querySelectorAll("#list > li")
+query.textContent = "高さ10㎝、底辺5㎝の三角形の面積を求めなさい。"
 
-// 子要素の数は...
-console.log(`追加前：${ liHtmlCollection.length }`)  // 5
-console.log(`追加前：${liNodeList.length}`)          // 5
+function getTriangleArea(height, width) {
+  return height * width / 2
+}
 
-// 子要素を生成
-let addChild = document.createElement("li")
+// 関数を定義の利点とは、例えば、面積を求める場合、
+// ここの引数の値を入れ替えることで汎用性を高めることができるから。
+reply.textContent = getTriangleArea(10, 5)
+console.log(`Ans: ${ getTriangleArea(10, 5) }`)
 
-// 子要素を追加
-list.appendChild(addChild)
-
-// 子要素の数は...
-console.log(`追加後：${ liHtmlCollection.length }`)  // 6
-console.log(`追加後：${ liNodeList.length }`)        // 5
