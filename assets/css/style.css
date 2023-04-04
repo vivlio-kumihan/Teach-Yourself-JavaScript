@@ -46,3 +46,15 @@ input {
   background-color: #333;
   border-radius: .3rem;
 }
+
+[type="button"]:disabled {
+  opacity: .2;
+}
+
+figure {
+  padding-top: 1rem;
+}
+
+figure > img {
+  width: 200px;
+}

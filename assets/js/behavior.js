@@ -1,25 +1,19 @@
-const list = document.querySelectorAll("#list a")
-let pic = document.getElementById("pic")
-const del = document.getElementById("delete")
+// NodeList
+let list = document.getElementById("list")
 
-for (let li of list) {
-  li.addEventListener("click", function() {
-    let isbn = this.getAttribute("data-isbn")
-    if (isbn) {
-      let img = document.createElement("img")
-      img.src = `https://wings.msn.to/books/${ isbn }/${ isbn }.jpg`
-      img.alt = this.textContent
-      if (pic.querySelector("img")) {
-        pic.replaceChild(img, pic.lastChild)
-      } else {
-        del.disabled = false
-        pic.append(img)
+let liHtmlCollection = list.children
+let liNodeList = document.querySelectorAll("#list > li")
 
-      }
+// 子要素の数は...
+console.log(`追加前：${ liHtmlCollection.length }`)  // 5
+console.log(`追加前：${liNodeList.length}`)          // 5
 
-    }
-    // console.log(isbn)
+// 子要素を生成
+let addChild = document.createElement("li")
 
-  }, false)
+// 子要素を追加
+list.appendChild(addChild)
 
-}
+// 子要素の数は...
+console.log(`追加後：${ liHtmlCollection.length }`)  // 6
+console.log(`追加後：${ liNodeList.length }`)        // 5
