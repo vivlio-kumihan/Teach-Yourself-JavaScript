@@ -1,3 +1,4 @@
+// // org: 可変長引数のサンプルコード
 // function sum(...nums) {
 //   let result = 0
 //   for (let num of nums) {
@@ -11,49 +12,65 @@
 // let ans = document.getElementById("reply")
 // ans.textContent = `合計は、${ sum(1,3,5,7,9) }となります。`
 
-// console.log(sum(1,3,5,7,9))
 
 
-console.log(['1.3', '2.3', '3.3'].map(Number))
-console.log(['1.2', '2.2', '3.2'].map(str => parseInt(str, 10)))
-
-
-
-// 入力をHTMLに出力する。
-// 入力した値を配列に変更しエラー処理し、数字であれば合計して返す。
-// 筋書きはこれでいいが大問題発生。
-// input[type = "text"]だから『数字』かそれ以外で条件分岐できない根本的な問題。
-// どのようにして解決しているのか？
-// なので、HTMLに出力をするコードは書いていない。
-
-// function sum(array) {
-//   let result = 0
-//   for (let ins of array) {
-//     if (typeof(ins) !== "number") {
-//       throw new Error(`指定値が数値ではありません。：${ ins }`)
-//     }
-//     result += ins
-//   }
-//   return result
-// }
-
-// // formに入力があったら、値を配列に変更する。
-// document.getElementById('form').onsubmit = function (event) {
-//   // preventDefault()を説明できるようになること。
-//   event.preventDefault();
-//   let inputText = document.querySelector("#argCheck").value.split(",")
-//   let tmpArray = []
-//   for (let ins of inputText) {
-//     if (typeof(ins) !== "number") {
-//       throw new Error(`入力された値は数値ではありません。:${ ins }`)
-//     }
-//     tmpArray.push(ins)
-//   }
-//   console.log(tmpArray)
+// // formに入力されたものは何か そして、それをどうしたいのか？
+// document.getElementById("form").onsubmit = function (event) {
+//   event.preventDefault()
+//   let inputTexts = document.getElementById("argCheck").value.split(",")
+//   console.log(inputTexts)
+//   // => ['1', '2', '3']
+//   console.log(typeof(inputTexts))
+//   // => object
+//   // イレラブルな動きをする。元の配列は変更しない。
+//   console.log(inputTexts.map(Number))
+//   // => [1, 2, 3]
+//   console.log(inputTexts.map(str => parseInt(str, 10)))
+//   // => [1, 1, 1]
 // }
 
 
 
+// // 入力に数字と文字列を混ぜる。HTMLに出力するコード。
+// document.getElementById("form").onsubmit = function (event) {
+//   event.preventDefault()
+//   let inputTexts = document.getElementById("argCheck").value.split(",")
+//   let ans = document.getElementById("reply")
+
+//   let sum = 0
+//   for (let ins of inputTexts.map(Number)) {
+//     if (isNaN(ins)) {
+//       ans.textContent = "配列の中に数字以外の文字が含まれています。合計できません。"
+//       break;
+//     } else {
+//       sum += ins
+//     }
+//   }
+//   ans.textContent = `合計は『${ sum }』です。`
+// }
 
 
 
+// throw, try ~ catchを使ってみる。
+function calc(value) {
+  let result = 0
+  for (let ins of value.map(Number)) {
+    if (isNaN(ins)) {
+      throw new Error(`数字ではないものが含まれています。合計できません。`)
+    }
+    result += ins
+  }
+  return result
+}
+
+document.getElementById("form").onsubmit = function (event) {
+  event.preventDefault()
+  let inputTexts = document.getElementById("argCheck").value.split(",")
+  let reply = document.getElementById("reply")
+
+  try {
+    reply.textContent = `合計は『${ calc(inputTexts) }』です。`
+  } catch(e) {
+    reply.textContent = e.message
+  }
+}
