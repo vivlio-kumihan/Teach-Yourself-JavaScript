@@ -1,24 +1,30 @@
-function sum(...nums) {
-  let result = 0
-  for (let num of nums) {
-    if (typeof num !== "number") {
-      throw new Error(`指定値が数値ではありません。：${ num }`)
-    }
-    result += num
-  }
-  return result 
-}
-let ans = document.getElementById("reply")
-ans.textContent = `合計は、${ sum(1,3,5,7,9) }となります。`
+// function sum(...nums) {
+//   let result = 0
+//   for (let num of nums) {
+//     if (typeof num !== "number") {
+//       throw new Error(`指定値が数値ではありません。：${ num }`)
+//     }
+//     result += num
+//   }
+//   return result 
+// }
+// let ans = document.getElementById("reply")
+// ans.textContent = `合計は、${ sum(1,3,5,7,9) }となります。`
 
-console.log(sum(1,3,5,7,9))
+// console.log(sum(1,3,5,7,9))
 
-// // 入力をHTMLに出力する。
-// // 入力した値を配列に変更しエラー処理し、数字であれば合計して返す。
-// // 筋書きはこれでいいが大問題発生。
-// // input[type = "text"]だから『数字』かそれ以外で条件分岐できない根本的な問題。
-// // どのようにして解決しているのか？
-// // なので、HTMLに出力をするコードは書いていない。
+
+console.log(['1.3', '2.3', '3.3'].map(Number))
+console.log(['1.2', '2.2', '3.2'].map(str => parseInt(str, 10)))
+
+
+
+// 入力をHTMLに出力する。
+// 入力した値を配列に変更しエラー処理し、数字であれば合計して返す。
+// 筋書きはこれでいいが大問題発生。
+// input[type = "text"]だから『数字』かそれ以外で条件分岐できない根本的な問題。
+// どのようにして解決しているのか？
+// なので、HTMLに出力をするコードは書いていない。
 
 // function sum(array) {
 //   let result = 0
@@ -45,3 +51,9 @@ console.log(sum(1,3,5,7,9))
 //   }
 //   console.log(tmpArray)
 // }
+
+
+
+
+
+
