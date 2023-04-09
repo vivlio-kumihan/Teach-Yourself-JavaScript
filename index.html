@@ -15,24 +15,27 @@
 
 </head>
 <body>
-  <div id="container">
-    <h2>関数</h2>
-    <h3>可変長引数</h3>
-    <p>可変長引数の関数を定義する</p>
-    <form id="form" action="" name="inputContent" method="">
-      <ul id="check">
-        <dt>
-          <label for="argCheck">入力:</label>
-        </dt>
-        <dd>
-          <input type="text" id="argCheck">
-        </dd>
-        <dd>
-          <input type="submit" value="送　信">
-        </dd>
-      </ul>
-    </form>
-    <p id="reply"></p>
+  <div id="app">
+    <div id="container">
+      <h2>関数</h2>
+      <h3>可変長引数</h3>
+      <p>可変長引数の関数を定義する</p>
+      <form id="form" action="" name="inputContent" method="" v-on:submit.prevent>
+        <ul id="check">
+          <dt>
+            <label for="argCheck">入力:</label>
+          </dt>
+          <dd>
+            <input type="text" id="argCheck" v-model="value">
+          </dd>
+          <dd>
+            <input type="submit" value="送　信">
+          </dd>
+        </ul>
+      </form>
+      <p id="reply">{{ reply() }}</p>
+      <!-- <p id="reply">{{ value }}</p> -->
+    </div>
   </div>
 </body>
 </html>

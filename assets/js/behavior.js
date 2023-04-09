@@ -51,26 +51,44 @@
 
 
 
-// throw, try ~ catchを使ってみる。
-function calc(value) {
-  let result = 0
-  for (let ins of value.map(Number)) {
-    if (isNaN(ins)) {
-      throw new Error(`数字ではないものが含まれています。合計できません。`)
+// // throw, try ~ catchを使ってみる。
+// function calc(value) {
+//   let result = 0
+//   for (let ins of value.map(Number)) {
+//     if (isNaN(ins)) {
+//       throw new Error(`数字ではないものが含まれています。合計できません。`)
+//     }
+//     result += ins
+//   }
+//   return result
+// }
+
+// document.getElementById("form").onsubmit = function (event) {
+//   event.preventDefault()
+//   let inputTexts = document.getElementById("argCheck").value.split(",")
+//   let reply = document.getElementById("reply")
+
+//   try {
+//     reply.textContent = `合計は『${ calc(inputTexts) }』です。`
+//   } catch(e) {
+//     reply.textContent = e.message
+//   }
+// }
+
+
+
+// Vue.jsを使ってみる。
+Vue.createApp({
+  data: function() {
+    return { value: "" }
+  },
+  methods: {
+    reply() {
+      let result = 0
+      for (ins of this.value.split(" ").map(Number)) {
+        result += ins
+      }
+      return result;
     }
-    result += ins
   }
-  return result
-}
-
-document.getElementById("form").onsubmit = function (event) {
-  event.preventDefault()
-  let inputTexts = document.getElementById("argCheck").value.split(",")
-  let reply = document.getElementById("reply")
-
-  try {
-    reply.textContent = `合計は『${ calc(inputTexts) }』です。`
-  } catch(e) {
-    reply.textContent = e.message
-  }
-}
+}).mount("#app")
