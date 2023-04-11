@@ -15,26 +15,46 @@
 
 </head>
 <body>
-  <div id="app">
-    <div id="container">
-      <h2>関数</h2>
-      <h3>可変長引数</h3>
-      <p>可変長引数の関数を定義する</p>
-      <form id="form" action="" name="inputContent" method="" v-on:submit.prevent>
-        <ul id="check">
-          <dt>
-            <label for="argCheck">入力:</label>
-          </dt>
-          <dd>
-            <input type="text" id="argCheck" v-model="value">
-          </dd>
-          <dd>
-            <input type="submit" value="送　信">
-          </dd>
-        </ul>
-      </form>
-      <p id="reply">{{ reply() }}</p>
-      <!-- <p id="reply">{{ value }}</p> -->
+  <div id="container">
+    <div class="wrapper one">
+      <dl>
+        <div class="wrapper">
+          <dt class="nodeTest">title1</dt>
+          <dd>黙って針仕事か何かで、<strong>父はただ母の顔を見た</strong>のは、ごく些細な事からでした。</dd>
+        </div>
+        <div class="wrapper">
+          <dt>title2</dt>
+          <dd>しかし立ち直って、もう論文は片付いたんです若い時っていつ頃ですかと尋ねました。</dd>
+        </div>
+        <div class="wrapper">
+          <dt>title3</dt>
+          <dd>あるいは箇人のもっている過分な希望を抱いて、九月には出ていらっしゃるんですか先生はさっき少し昂奮なさいましたね。</dd>
+        </div>
+      </dl>
+    </div>
+    <div class="wrapper two">
+      <figure id="cover">
+        <img src="./assets/img/cover.jpg" alt="神社の境内" >
+        <figcaption><a href="https://kumihan.com" id="site">bird</a></figcaption>
+      </figure>
+      <figure id="apear">
+        <img src="./assets/img/p4.jpg" alt="" >
+      </figure>
+    </div>
+    <div class="wrapper three">
+      <ul class="grid-container">
+        <li>a</li>
+        <li>b</li>
+        <li>c</li>
+        <li class="four" style="order:1">d</li>
+        <li>e</li>
+        <li>f</li>
+        <li>g</li>
+        <li>h</li>
+        <li>i</li>
+        <!-- <li class="area eight"></li>
+            <li class="area nine"></li> -->
+      </ul>
     </div>
   </div>
 </body>
