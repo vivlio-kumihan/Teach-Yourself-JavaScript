@@ -16,46 +16,41 @@
 </head>
 <body>
   <div id="container">
-    <div class="wrapper one">
+    <form id="multipleSelect" action="" method="post">
       <dl>
-        <div class="wrapper">
-          <dt class="nodeTest">title1</dt>
-          <dd>黙って針仕事か何かで、<strong>父はただ母の顔を見た</strong>のは、ごく些細な事からでした。</dd>
-        </div>
-        <div class="wrapper">
-          <dt>title2</dt>
-          <dd>しかし立ち直って、もう論文は片付いたんです若い時っていつ頃ですかと尋ねました。</dd>
-        </div>
-        <div class="wrapper">
-          <dt>title3</dt>
-          <dd>あるいは箇人のもっている過分な希望を抱いて、九月には出ていらっしゃるんですか先生はさっき少し昂奮なさいましたね。</dd>
-        </div>
+        <dt>
+          <label for="sendPkg">ファイルを選択</label>
+        </dt>
+        <dd>
+          <input type="file" id="sendPkg" multiple>
+        </dd>
+        <dd>
+          <p><small id="preWord">ファイルが選択されていません。</small><br>
+          <small id="fileName"></small></p>
+        </dd>
       </dl>
-    </div>
-    <div class="wrapper two">
-      <figure id="cover">
-        <img src="./assets/img/cover.jpg" alt="神社の境内" >
-        <figcaption><a href="https://kumihan.com" id="site">bird</a></figcaption>
-      </figure>
-      <figure id="apear">
-        <img src="./assets/img/p4.jpg" alt="" >
-      </figure>
-    </div>
-    <div class="wrapper three">
-      <ul class="grid-container">
-        <li>a</li>
-        <li>b</li>
-        <li>c</li>
-        <li class="four" style="order:1">d</li>
-        <li>e</li>
-        <li>f</li>
-        <li>g</li>
-        <li>h</li>
-        <li>i</li>
-        <!-- <li class="area eight"></li>
-            <li class="area nine"></li> -->
-      </ul>
-    </div>
+    </form>
+
+    <form id="preView" action="" method="post">
+      <dl>
+        <dt>
+          <label for="sendText">ファイルを選択</label>
+        </dt>
+        <dd>
+          <input type="file" id="sendText">
+        </dd>
+        <dd>
+          <p><small id="preText">ファイルが選択されていません。</small><br>
+          <small id="textTitle"></small></p>
+        </dd>
+        <dd>
+          <input id="button" type="button" value="内容を表示">
+        </dd>
+        <dd>
+          <p class="result"></p>
+        </dd>
+      </dl>
+    </form>
   </div>
 </body>
 </html>
