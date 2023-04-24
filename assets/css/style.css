@@ -19,78 +19,34 @@ body {
   box-shadow: 2px 2px 2px #ccc;
 }
 
-form:not(:first-of-type) {
-  margin-top: 2rem;
-}
-
-dl {
+#article > p {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 450px;
-  margin: 0 auto;
+  
 }
-
-label,
-input[type="button"] {
+span {
   display: flex;
   justify-content: center;
-  align-items: center;
-
-  width: 10rem;
-  height: 2.5rem;
-  margin-bottom: .25rem;
-  font-weight: 700;
-  color: #fff;
-  background-color: blue;
-  border-radius: .3rem;
-  transition: .3s;
+  align-items: flex-end;
+  width: 2rem;
+  height: 2rem;
 }
 
-label:hover,
-input[type="button"]:hover {
-  opacity: .5;
-  transform: translateY(-.1rem);
-  box-shadow: 0 0 3px #333;
+span:not(:first-of-type) {
+  margin-top: 0rem;
 }
 
-input[type="file"] {
-  display: none;
+.right-align {
+  justify-content: flex-end;
+  align-items: flex-start;
 }
 
-input[type="button"] {
-  margin-top: 1rem;
-  text-align: center;
-  background-color: orange;
-}
-
-dd > p {
-  line-height: 1.2;
-  text-align: center;
-}
-
-.result {
-  display: none;
-  margin-top: 1rem;
-  padding: 1rem;
-  line-height: 1.4;
-  text-align: left;
-  background-color: #fff;
-  border-radius: .3rem;
-  z-index: 100;
-}
-
-.active {
-  display: inline-block;
-
-}
-
-#fileName {
-  font-size: 1rem;
-  font-weight: 500;
-}
-
-#input {
-  display: block;
+/* ちなみに、普通に縦書きするCSS */
+.vertical-text {
+  writing-mode: vertical-rl;
+  /* 縦書き指定 */
+  text-orientation: mixed;
+  /* テキストの向きを調整 */
 }
