@@ -1,9 +1,8 @@
 let paragraphs = Array.from(document.getElementById("article").children)
-paragraphs.forEach(p => {
-  tmpStr = ""
-  for (let char of p.textContent) {
-    tmpStr += `<span>${ char }</span>`
-  } 
-  const pattern = /<span>(。|、)<\/span>/g
-  p.innerHTML = tmpStr.replaceAll(pattern, '<span class="right-align">$1</span>')
+
+paragraphs.forEach((p, idx) => {
+  let para = p.textContent
+  if (para.length >= 31) {
+    p.innerHTML = `${ idx + 1 }. ${ para.slice(0, 30) }…`
+  }
 })
