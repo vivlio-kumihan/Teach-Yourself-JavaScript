@@ -14,39 +14,8 @@ body {
   max-width: 600px;
   margin: 10rem auto 0;
   padding: 2rem;
+  text-align: center;
   background-color: #eee;
   border-radius: .5rem;
   box-shadow: 2px 2px 2px #ccc;
-}
-
-#article > p {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  
-}
-span {
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  width: 2rem;
-  height: 2rem;
-}
-
-span:not(:first-of-type) {
-  margin-top: 0rem;
-}
-
-.right-align {
-  justify-content: flex-end;
-  align-items: flex-start;
-}
-
-/* ちなみに、普通に縦書きするCSS */
-.vertical-text {
-  writing-mode: vertical-rl;
-  /* 縦書き指定 */
-  text-orientation: mixed;
-  /* テキストの向きを調整 */
 }

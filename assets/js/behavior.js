@@ -1,8 +1,6 @@
-let paragraphs = Array.from(document.getElementById("article").children)
-
-paragraphs.forEach((p, idx) => {
-  let para = p.textContent
-  if (para.length >= 31) {
-    p.innerHTML = `${ idx + 1 }. ${ para.slice(0, 30) }…`
-  }
-})
+let arr = [1, 2, 3, 4, 5, 6]
+let strArr = []
+arr.map(function (num) {
+  this.push(String(num))
+}, strArr)
+console.log(strArr)
