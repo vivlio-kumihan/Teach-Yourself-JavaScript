@@ -14,8 +14,28 @@ body {
   max-width: 600px;
   margin: 10rem auto 0;
   padding: 2rem;
-  text-align: center;
+  text-align: justify;
+  text-indent: 1rem;
   background-color: #eee;
   border-radius: .5rem;
   box-shadow: 2px 2px 2px #ccc;
+}
+
+input {
+  margin-bottom: 3rem;
+  padding: .75rem 2rem;
+  color: #fff;
+  background-color: #333;
+  border-radius: .5rem;
+  transform: translateY(.15rem);
+  transition: .3s;
+}
+
+input:hover {
+  font-weight: 700;
+  transform: translateY(0);
+  opacity: .5;
+  box-shadow: 0 0 3px #555;
+
+
 }

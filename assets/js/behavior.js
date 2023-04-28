@@ -1,19 +1,11 @@
-let arr = [1, 2, 3, 4, 5, 6]
+// 通常画面と全画面を切り替える
+document.getElementById("btn").addEventListener("click", function() {
+  if (this.value === "全画面") {
+    this.setAttribute("value", "戻る")
+    document.body.requestFullscreen()
+  } else {
+    this.setAttribute("value", "全画面")
+    document.exitFullscreen()
+  }
+}, false)
 
-let randomNum = arr.sort(function () {
-  return Math.random() - 0.5
-})
-
-console.log(randomNum)
-
-
-let strArr = []
-arr.map(function (num) {
-  this.push(String(num))
-}, strArr)
-
-let randomStr = strArr.sort(function () {
-  return Math.random() - 0.5
-})
-
-console.log(randomStr)
