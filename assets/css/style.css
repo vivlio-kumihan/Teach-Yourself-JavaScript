@@ -23,25 +23,21 @@ body {
   box-shadow: 2px 2px 2px #ccc;
 }
 
-input {
-  margin-bottom: 3rem;
-  padding: .75rem 2rem;
-  color: #fff;
-  background-color: #333;
-  border-radius: .5rem;
-  transform: translateY(.15rem);
-  transition: .3s;
+article[id^="part"] {
+  transition: .5s;
+  transform: translateY(5rem);
+  visibility: hidden;
+  opacity: 0;
 }
 
-input:hover {
-  font-weight: 700;
+article[id^="part"].active {
   transform: translateY(0);
-  opacity: .5;
-  box-shadow: 0 0 3px #555;
+  visibility: visible;
+  opacity: 1;
 }
 
 h1, h2 {
-  margin: 2rem 0 0;
+  margin: 6rem 0 0;
   font-size: 2rem;
   font-weight: 900;
   line-height: 1em;
@@ -59,10 +55,18 @@ h2:first-of-type {
   margin: 1rem 0;
 }
 
+#greeting {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+}
+
 #greeting > h2 {
-  font-size: 2rem;
+  font-size: 2.5rem;
+  font-weight: 900;
   line-height: 1em;
   text-align: center;
-  letter-spacing: .07em;
+  letter-spacing: .2em;
   text-transform: uppercase;
 }
