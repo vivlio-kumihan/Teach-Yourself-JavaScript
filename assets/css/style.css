@@ -2,6 +2,8 @@
 
 html {
   font-size: 15px;
+  scroll-behavior: smooth;
+  /* scroll-margin-top: ;とセットで考える。 */
 }
 
 body {
@@ -36,6 +38,12 @@ input:hover {
   transform: translateY(0);
   opacity: .5;
   box-shadow: 0 0 3px #555;
+}
 
-
+h2 {
+  margin: 2rem 0 1rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1em;
+  text-transform: capitalize;
 }
