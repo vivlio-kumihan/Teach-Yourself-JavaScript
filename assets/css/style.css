@@ -40,10 +40,29 @@ input:hover {
   box-shadow: 0 0 3px #555;
 }
 
+h1, h2 {
+  margin: 2rem 0 0;
+  font-size: 2rem;
+  font-weight: 900;
+  line-height: 1em;
+  text-transform: capitalize;
+}
+
 h2 {
   margin: 2rem 0 1rem;
   font-size: 1.2rem;
   font-weight: 700;
   line-height: 1em;
-  text-transform: capitalize;
+}
+
+h2:first-of-type {
+  margin: 1rem 0;
+}
+
+#greeting > h2 {
+  font-size: 2rem;
+  line-height: 1em;
+  text-align: center;
+  letter-spacing: .07em;
+  text-transform: uppercase;
 }
