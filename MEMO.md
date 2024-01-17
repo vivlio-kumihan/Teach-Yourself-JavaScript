@@ -1,19 +1,22 @@
+## 変数
+
 > 変数は、値そのものではなく、あくまで値の保管先の場所（アドレス）を保持している。
 
-`↓`
+`↓` つまり、
 
 > 変数は、値そのものではなく、値への参照を保持している。
 
 ## データ型
 * null
-  * 変数の値が空であることを意図的に表すリテラル
+  * `変数の値が空`であることを`意図的`に表すリテラル
 * undefined
-  * 値が未定義である場合、プログラムによって自動的に設定されるリテラル
+  * `値が未定義`である場合、プログラムによって`自動的に設定される`リテラル
 * プリミティブ型
   * Object以外のデータ型
 * 非プリミティブ型
   * Object
   
+## リテラル
 > リテラルとは、データ型の値をコードで直接記述するための構文
 
 ### 数値
@@ -33,11 +36,11 @@ let afterWord = 'world';
 const sumWord = `${ str }, ${ afterWord }!!`
 ```
 
-### Object
+## Object
 
 #### ドット記法とブラケット記法
 
-##### 普段は、ドット記法で行きます。
+##### 普段は、ドット記法で書く。
 
 ```
 > ドット記法
@@ -58,7 +61,6 @@ console.log(person.family.wife);
 console.log(person);
 ```
 
-
 ```
 > ブラケット記法
 
@@ -78,7 +80,9 @@ console.log(people["family"]["doughter"]);
 console.log(people);
 ```
 
-##### 利点：オブジェクトリテラルの初期化の際にブラケット記法が使える。これは使う。
+#### ブラケット記法の利点
+
+オブジェクトリテラルの初期化の際にブラケット記法が使える。
 
 ```
 const keyBase = "menber";
@@ -90,3 +94,101 @@ console.log(members);
 # => {menber1: 'john', menber2: 'paul'}
 ```
 
+### メソッド
+
+> オブジェクトでは、特定の処理を行う機能を追加したい場合、関数に登録できる。オブジェクトに登録される関数をメソッドという。
+
+##### オブジェクトを定義する
+
+オブジェクトに関数を定義するのは見慣れてないが、
+
+```
+let greeting = {
+  // 普通に書いても、
+  // hello: function() {
+  //   console.log("hello");
+  // }
+  // 無形関数で書いてもいける。
+  hello: () => console.log("hello"),
+  morning: () => console.log("morning"),
+};
+```
+
+関数を定義したオブジェクトを参照したり、
+
+```
+greeting.hello();
+greeting.morning();
+```
+
+定義を追加したりするといつも見ているやつになってる。
+こういうことだったのかと。。。
+
+```
+// ドット記法と無形関数でスッキリかくと、
+// greeting.bye = () => console.log("bye");
+
+// あえてブラケット記法と普通にかくと、
+greeting["bye"] = function() { console.log("bye") };
+
+greeting.bye();
+# => bye
+```
+
+## データ型の特徴
+
+* 動的型付け言語
+  * プログラムの実行時に値が設定された時点で自動的に決定される。
+* 静的型付け言語
+  * プログラムを書く時に開発者が明示的に宣言する。
+  
+> つまり、データ型を常に意識して運用する必要がある
+
+`↓`
+
+> データ型の確認方法を身につけておく
+
+### 確認方法 typeof
+
+```
+console.log(typeof "string");    => string
+console.log(typeof 1);           => number
+console.log(typeof true);        => boolean
+console.log(typeof [1,2,3]);     => object
+console.log(typeof null);        => object
+console.log(typeof undefined);   => undefined
+```
+
+### 変換
+
+#### String
+
+```
+console.log(String(1));         1
+console.log(String(true));      "true"
+```
+
+#### Number
+
+特筆すべきは`NaN`
+文字列などの数値型以外から数値型に変換する際、変換不可能な場合に返される特殊な値。
+つまり、
+`NaN`が出てくるということは、数値型以外から数値型に`変換しようとするコード`が`どこかにあるはず`という認識でいること。
+
+
+```
+console.log(Number("1"));      #=> 1
+console.log(Number("hello"));  #=> NaN
+console.log(Number(true));     #=> 1
+console.log(Number(false));    #=> 0
+```
+
+#### Boolean
+
+上のNumberの型変換とも合わせて、コードを書くときに真偽値を使ったアイデアに繋げること。
+
+```
+console.log(Boolean(1));       #=> true
+console.log(Boolean(0));       #=> false
+```
+ 

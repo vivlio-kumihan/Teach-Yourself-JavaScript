@@ -55,3 +55,62 @@
 //   [keyBase + "2"]: "paul",
 // }
 // console.log(members);
+
+// let greeting = {
+//   // 普通に書いても、
+//   // hello: function() {
+//   //   console.log("hello");
+//   // }
+//   // 無形関数で書いてもいける。
+//   hello: () => console.log("hello"),
+//   morning: () => console.log("morning"),
+// };
+
+// greeting.hello();
+// greeting.morning();
+
+// // ドット記法と無形関数でスッキリかくと、
+// // greeting.bye = () => console.log("bye");
+
+// // あえてブラケット記法と普通にかくと、
+// greeting["bye"] = function() { console.log("bye") };
+
+// greeting.bye();
+
+
+// let obj = {
+//   prop: 
+//   function() { return true },
+//   subObj: { var: 100 },
+//   greeting: function() { return "こんにちは"},
+// }
+
+// // console.log(obj.prop());
+// console.log(obj["prop"]());
+// // console.log(obj.subObj.var);
+// console.log(obj["subObj"]["var"]);
+// // console.log(obj.greeting());
+// console.log(obj["greeting"]());
+
+// obj.subObj.var2 = 1000;
+// console.log(obj.subObj.var2);
+// // obj["subObj"]["var2"] = 1000;
+// // console.log(obj["subObj"]["var2"]);
+
+console.log(Boolean(""));
+console.log(Boolean(0));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
