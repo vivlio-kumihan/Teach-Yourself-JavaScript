@@ -97,20 +97,54 @@
 // // obj["subObj"]["var2"] = 1000;
 // // console.log(obj["subObj"]["var2"]);
 
-console.log(Boolean(""));
-console.log(Boolean(0));
+// console.log(Boolean(""));
+// console.log(Boolean(0));
+
+
+// console.log(1 * true);      // => 1
+// console.log(false * true);  // => 0
+// console.log(Boolean(0))     // => false
+// console.log(Boolean(1))     // => true
+// console.log(Boolean(-1))    // => true
+
+
+// const TAX_RATE = 1.1;
+// let productPrice = 1000;
 
 
 
+// console.log(`商品の金額は${productPrice}円ですので、税込金額は${ productPrice * TAX_RATE }です。`);
+// console.log("商品の金額は" + productPrice + "円ですので、税込金額は" + productPrice * TAX_RATE + "です。");
 
 
+// console.log((12 ** 2) / 5);
+// console.log((12n ** 2n) / 5n);
+// console.log(Number("hello"));
 
+// const counter = { num: 1 };
+// console.log(counter.num);
+// console.log(counter["num"]);
 
+// console.log(typeof null);
+// console.log(100 + true);
+// console.log(1 + Number("hello"));
+// console.log(Boolean("hello"));
 
+let a = 0;
+let b = ++a;
+console.log(`a: ${ a }, b: ${ b }`);
 
+let c = 0;
+let d = c++;
+console.log(`c: ${ c }, d: ${ d }`);
 
+console.log(2 * 3 ** 2);
+console.log(10 / 2 + (3 - 2));
+console.log(10 / (2 + 3) - 2);
+let e = 1;
+console.log(e++);
+let f = 10, g = 1;
 
-
-
+console.log(--f * ++g)
 
 

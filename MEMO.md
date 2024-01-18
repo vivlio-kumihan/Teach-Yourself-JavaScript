@@ -91,12 +91,12 @@ let members = {
   [keyBase + "2"]: "paul",
 }
 console.log(members);
-# => {menber1: 'john', menber2: 'paul'}
+//=> {menber1: 'john', menber2: 'paul'}
 ```
 
 ### メソッド
 
-> オブジェクトでは、特定の処理を行う機能を追加したい場合、関数に登録できる。オブジェクトに登録される関数をメソッドという。
+> オブジェクトでは、特定の処理を行う機能を追加したい場合（特定の処理を行う機能を値として持ちたい場合）に関数を登録できる。オブジェクトに登録される関数をメソッドという。
 
 ##### オブジェクトを定義する
 
@@ -132,7 +132,7 @@ greeting.morning();
 greeting["bye"] = function() { console.log("bye") };
 
 greeting.bye();
-# => bye
+//=> bye
 ```
 
 ## データ型の特徴
@@ -151,12 +151,12 @@ greeting.bye();
 ### 確認方法 typeof
 
 ```
-console.log(typeof "string");    => string
-console.log(typeof 1);           => number
-console.log(typeof true);        => boolean
-console.log(typeof [1,2,3]);     => object
-console.log(typeof null);        => object
-console.log(typeof undefined);   => undefined
+console.log(typeof "string");    //=> string
+console.log(typeof 1);           //=> number
+console.log(typeof true);        //=> boolean
+console.log(typeof [1,2,3]);     //=> object
+console.log(typeof null);        //=> object
+console.log(typeof undefined);   //=> undefined
 ```
 
 ### 変換
@@ -164,8 +164,8 @@ console.log(typeof undefined);   => undefined
 #### String
 
 ```
-console.log(String(1));         1
-console.log(String(true));      "true"
+console.log(String(1));         //=> 1
+console.log(String(true));      //=> "true"
 ```
 
 #### Number
@@ -177,18 +177,54 @@ console.log(String(true));      "true"
 
 
 ```
-console.log(Number("1"));      #=> 1
-console.log(Number("hello"));  #=> NaN
-console.log(Number(true));     #=> 1
-console.log(Number(false));    #=> 0
+console.log(Number("1"));      //=> 1
+console.log(Number("hello"));  //=> NaN
+console.log(Number(true));     //=> 1
+console.log(Number(false));    //=> 0
 ```
 
 #### Boolean
 
 上のNumberの型変換とも合わせて、コードを書くときに真偽値を使ったアイデアに繋げること。
+なお、これは暗黙的な型変換と言われるもの。
+`true === 1`, `false === 0`ということは認識しておく。
 
 ```
-console.log(Boolean(1));       #=> true
-console.log(Boolean(0));       #=> false
+console.log(Boolean(1));       //=> true
+console.log(Boolean(-1));   　 // => true
+console.log(Boolean("hello")); // => true
+console.log(Boolean(0));     　 //=> false
 ```
  
+## 演算子とオペランド
+
+`1 + 2` この場合で見ると、
+`1`と`2`がオペランド
+`+`が演算子
+
+演算子は、
+* 処理を行う。
+  * `1 + 1` => 1と1を`足す`
+* 値を返す。
+  * `a = 1` => 変数aに1を`代入`して、その`値を返す`。
+
+
+### インクリメント、ディクリメント演算子
+
+> `オペランド`に変数を取ることで、変数が保持している値にインクリメント・ディクリメンとした値を`同じ変数の新しい値`として設定する演算子。
+
+演算子が持つ特性を理解できていれば、インクリメント、ディクリメント演算子の挙動を把握できる。
+
+```
+let a = 0;
+// 計算して結果を返している。
+let b = ++a;
+console.log(`a: ${ a }, b: ${ b }`);
+//=> a: 1, b: 1
+
+let c = 0;
+// 計算するだけで処理を終える。
+let d = c++;
+console.log(`c: ${ c }, d: ${ d }`);
+//=> c: 1, d: 0
+```
