@@ -130,21 +130,37 @@
 // console.log(1 + Number("hello"));
 // console.log(Boolean("hello"));
 
-let a = 0;
-let b = ++a;
-console.log(`a: ${ a }, b: ${ b }`);
+// let a = 0;
+// let b = ++a;
+// console.log(`a: ${ a }, b: ${ b }`);
 
-let c = 0;
-let d = c++;
-console.log(`c: ${ c }, d: ${ d }`);
+// let c = 0;
+// let d = c++;
+// console.log(`c: ${ c }, d: ${ d }`);
 
-console.log(2 * 3 ** 2);
-console.log(10 / 2 + (3 - 2));
-console.log(10 / (2 + 3) - 2);
-let e = 1;
-console.log(e++);
-let f = 10, g = 1;
+// console.log(2 * 3 ** 2);
+// console.log(10 / 2 + (3 - 2));
+// console.log(10 / (2 + 3) - 2);
+// let e = 1;
+// console.log(e++);
+// let f = 10, g = 1;
 
-console.log(--f * ++g)
+// console.log(--f * ++g)
 
+// 結果は全て同じ。
+// let a = 0;
+// a = a + 1;
 
+// a += 1
+
+// ++a
+// //=> 1
+
+// console.log("hello" || "world");
+// console.log("hello" || undefined);
+// console.log(null || "world");
+// console.log(null || undefined || NaN);
+
+const obj = { name: "takahiro" };
+delete obj.name;
+console.log(obj);

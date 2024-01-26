@@ -30,7 +30,7 @@
 
 3つのリテラル
 
-```
+```js
 let str = "hello";
 let afterWord = 'world';
 const sumWord = `${ str }, ${ afterWord }!!`
@@ -42,7 +42,7 @@ const sumWord = `${ str }, ${ afterWord }!!`
 
 ##### 普段は、ドット記法で書く。
 
-```
+```js
 > ドット記法
 
 let person = {
@@ -61,7 +61,7 @@ console.log(person.family.wife);
 console.log(person);
 ```
 
-```
+```js
 > ブラケット記法
 
 let people = {
@@ -84,7 +84,7 @@ console.log(people);
 
 オブジェクトリテラルの初期化の際にブラケット記法が使える。
 
-```
+```js
 const keyBase = "menber";
 let members = {
   [keyBase + "1"]: "john",
@@ -102,7 +102,7 @@ console.log(members);
 
 オブジェクトに関数を定義するのは見慣れてないが、
 
-```
+```js
 let greeting = {
   // 普通に書いても、
   // hello: function() {
@@ -116,7 +116,7 @@ let greeting = {
 
 関数を定義したオブジェクトを参照したり、
 
-```
+```js
 greeting.hello();
 greeting.morning();
 ```
@@ -124,7 +124,7 @@ greeting.morning();
 定義を追加したりするといつも見ているやつになってる。
 こういうことだったのかと。。。
 
-```
+```js
 // ドット記法と無形関数でスッキリかくと、
 // greeting.bye = () => console.log("bye");
 
@@ -150,7 +150,7 @@ greeting.bye();
 
 ### 確認方法 typeof
 
-```
+```js
 console.log(typeof "string");    //=> string
 console.log(typeof 1);           //=> number
 console.log(typeof true);        //=> boolean
@@ -163,7 +163,7 @@ console.log(typeof undefined);   //=> undefined
 
 #### String
 
-```
+```js
 console.log(String(1));         //=> 1
 console.log(String(true));      //=> "true"
 ```
@@ -176,7 +176,7 @@ console.log(String(true));      //=> "true"
 `NaN`が出てくるということは、数値型以外から数値型に`変換しようとするコード`が`どこかにあるはず`という認識でいること。
 
 
-```
+```js
 console.log(Number("1"));      //=> 1
 console.log(Number("hello"));  //=> NaN
 console.log(Number(true));     //=> 1
@@ -189,7 +189,7 @@ console.log(Number(false));    //=> 0
 なお、これは暗黙的な型変換と言われるもの。
 `true === 1`, `false === 0`ということは認識しておく。
 
-```
+```js
 console.log(Boolean(1));       //=> true
 console.log(Boolean(-1));   　 // => true
 console.log(Boolean("hello")); // => true
@@ -215,7 +215,7 @@ console.log(Boolean(0));     　 //=> false
 
 演算子が持つ特性を理解できていれば、インクリメント、ディクリメント演算子の挙動を把握できる。
 
-```
+```js
 let a = 0;
 // 計算して結果を返している。
 let b = ++a;
@@ -227,4 +227,97 @@ let c = 0;
 let d = c++;
 console.log(`c: ${ c }, d: ${ d }`);
 //=> c: 1, d: 0
+```
+
+__結果は全て同じ。__
+```js
+let a = 0;
+a = a + 1;
+
+a += 1
+
+++a
+//=> 1
+```
+
+## 論理演算子
+
+`&&`, `||`
+
+### falsy、truthyな値
+
+* falsy
+  * Boolean関数で値を真偽値に変換したときに、falseが返ってくる値
+* truthy
+  * その逆
+
+#### falsyな値
+
+`false`, `0`, `-0`, `0n`, `空の文字列`, `null`, `undefined`, `NaN`
+
+### 論理演算子の挙動
+
+#### 論理積
+
+* 左から右へと`truthy`な値かどうかを判定する。
+* `オペランド`の評価の途中で`falsy`な値が見つかった場合には、その値を`論理積`の結果として返す。
+* この時点で処理を終了する。
+* オペランドが全て`truthy`な値の場合は最後の値を返す。
+
+```js
+console.log("hello" && "world");
+  // => world
+
+console.log("hello" && undefined);
+  // => undefined
+
+console.log(null && "world");
+  // => null
+
+console.log(true && "world" && NaN);
+  // => NaN
+```
+
+#### 論理和
+
+* 左から右へと`truthy`な値かどうかを判定するのは`falsy`と同じ。
+* `オペランド`の評価の途中で`truthy`な値が見つかった場合には、その値を`論理和`の結果として返す。
+* この時点で処理を終了する。
+* `true`か`false`に関わりなく、最後のオペランドまで達するとその値を返す。
+
+```js
+console.log("hello" || "world");
+  // => hello
+
+console.log("hello" || undefined);
+  // => hello
+
+console.log(null || "world");
+  // => world
+
+console.log(null || undefined || NaN);
+  // => NaN
+```
+
+### 単行演算子
+
+
+
+`delete`, `typeof`, `!`, `+`, `-`
+
+* delete
+  * オブジェクトから特定の値を削除する。
+* typeof
+  * オペランドのデータ型を返す。
+* !
+  * オペランドを真偽値に変換して、反対の真偽値を返す。
+* +, -
+  * オペランドを数値に変換して、その値を返す。
+
+```
+delete
+typeof
+!
++
+-
 ```
