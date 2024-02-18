@@ -191,4 +191,3 @@ console.log(Number(false));    #=> 0
 console.log(Boolean(1));       #=> true
 console.log(Boolean(0));       #=> false
 ```
- 
