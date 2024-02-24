@@ -1,64 +1,59 @@
-// 非同期処理をネストさせるためにPromiseを使う。
-// ### 0. 最初の一歩
+// // `定型的`な非同期処理を`時間の経過`を追って重ねて実行できる。
+// // `カウントを条件`に、`カウント数`と`時刻の取得`を`n秒ごと`に実行するコードを書けるわけ。
 
-// Promiseは初期状態で、`resolve`, `reject`という関数を持つ。
-// `resolve関数`は`then`メソッドがある。
-// `reject関数`は`catch`メソッドがある。
-// `resolve`, `reject`の引数は、それぞれ`then`メソッド, `catch`メソッドに
-// 渡っていく。
-let instance = new Promise((resolve, reject) => {
-  setTimeout(() => {
-    // 0から10までの整数をランダムに生成させる。
-    const rand = Math.floor(Math.random() * 11);
-    if (rand < 5) {
-      reject(rand);
-    } else {
-      resolve(rand);
-    }
-  }, 1000)
-});
+// function promiseFactory(count) {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       count++;
+//       console.log(`${ count }回目のコールです。時刻：${new Date().toTimeString() }`);
+//       if (count === 3) {
+//         reject(count);
+//       } else {
+//         resolve(count);
+//       }
+//     }, 1000);
+//   });
+// }
 
-instance = instance.then((value) => {
-  console.log(`5以上の値${value}が渡ってきました。`);
-});
-
-instance = instance.catch((errorValue) => {
-  console.log(`5未満の値${errorValue}が渡ってきたのでエラー表示。`);
-});
-
-instance = instance.finally(() => {
-  console.log("処理を終了します。");
-});
+// promiseFactory(0)
+//   .then(times => { return promiseFactory(times); })
+//   .then(times => { return promiseFactory(times); })
+//   .then(times => { return promiseFactory(times); })
+//   .then(times => { return promiseFactory(times); })
+//   .catch(errorTimes => {
+//     console.error(`エラーに飛びました。現在のカウントは${ errorTimes }回目です。`);
+//   })
+//   .finally(() => { console.log("処理を終了します。"); });
 
 
-let instance = new Promise((resolve, reject) => {
-  setTimeout(() => {
-    // 0から10までの整数をランダムに生成させる。
-    const setTime = new Date().getSeconds();
-    console.log(setTime);
-    if (setTime % 2 === 0) {
-      resolve(setTime);
-    } else {
-      reject(setTime);
-    }
-  }, 1000)
-});
+// では、1秒ごとに2つずつ数値がインクルメントされてコンソールに表示されるプログラムを
+// プロミス・チェーンを使って書く。
 
+function promiseFactory(num) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      // これも考え方。
+      // 何でもかんでも1行で解決しようとする考えがダメ。
+      // num++ * 2 とかアホかやで。
+      console.log(num);
+      num += 2;
+      if (num > 6) {
+        reject(num);
+      } else {
+        resolve(num);
+      }
+    }, 1000);
+  });
+}
 
-instance = instance.then((value) => {
-  console.log(`${value}は、偶数のため成功とします。`);
-});
+promiseFactory(0)
+  .then(number => { return promiseFactory(number); })
+  .then(number => { return promiseFactory(number); })
+  .then(number => { return promiseFactory(number); })
+  .then(number => { return promiseFactory(number); })
+  .then(number => { return promiseFactory(number); })
+  .catch(errorNumber => {
+    console.error(`エラーに飛びました。現在は${ errorNumber }です。`);
+  })
+  .finally(() => { console.log("処理を終了します。"); });
 
-instance = instance.catch((errorValue) => {
-  console.log(`${errorValue}は、奇数のためエラーとします。`);
-});
-
-instance = instance.finally(() => {
-  console.log("処理を終了します。");
-});
-
-
-instance = instance
-  .then(value => console.log(`${value}は、偶数のため成功とします。`))
-  .catch(errorValue => console.log(`${errorValue}は、奇数のためエラーとします。`))
-  .finally(() => console.log("処理を終了します。"));

@@ -166,10 +166,14 @@ let instance = new Promise((resolve, reject) => {
     // 0から10までの整数をランダムに生成させる。
     const setTime = new Date().getSeconds();
     console.log(setTime);
-    if (setTime % 2 === 0) {
-      resolve(setTime);
-    } else {
+    // こういう考え方はしない。
+    // if (setTime % 2 === 0) {
+    // 2で割ったあまりが『有れば』真で、reject行き。
+    // それ以外は偶数だからresolve行きになると考える。
+    if (setTime % 2) {
       reject(setTime);
+    } else {
+      resolve(setTime);
     }
   }, 1000)
 });
@@ -197,3 +201,35 @@ instance = instance
   .finally(() => console.log("処理を終了します。"));
 ```
 
+では、1秒ごとに2つずつ数値がインクルメントされてコンソールに表示されるプログラムを
+プロミス・チェーンを使って書く。
+
+```js
+function promiseFactory(num) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      // これも考え方。
+      // 何でもかんでも1行で解決しようとする考えがダメ。
+      // num++ * 2 とかアホかやで。
+      console.log(num);
+      num += 2;
+      if (num > 6) {
+        reject(num);
+      } else {
+        resolve(num);
+      }
+    }, 1000);
+  });
+}
+
+promiseFactory(0)
+  .then(number => { return promiseFactory(number); })
+  .then(number => { return promiseFactory(number); })
+  .then(number => { return promiseFactory(number); })
+  .then(number => { return promiseFactory(number); })
+  .then(number => { return promiseFactory(number); })
+  .catch(errorNumber => {
+    console.error(`エラーに飛びました。現在は${ errorNumber }です。`);
+  })
+  .finally(() => { console.log("処理を終了します。"); });
+```
