@@ -58,6 +58,7 @@ setTimeout(() => { val = 1 }, 1000);
 console.log(val);
 ```
 
+
 ## 関数が実行される順番
 * スレッドから順にコールスタックに入る。
 * Web APIを呼び出して非同期処理になるものはタクス・キューに追加された順に入っていく。
@@ -71,7 +72,6 @@ console.log("C");
 ```
 
 __答え => C -> B -> A の順で実行される。__
-
 
 
 ## 非同期の関数の取り扱い
@@ -121,7 +121,7 @@ delay((msg) => {
 Promiseは、`非同期処理を扱うオブジェクト`。
 非同期処理に`ネスト`が深くなることを避けることができる。
 
-### 0. 最初の一歩
+### 1. Promiseの記述
 
 * Promiseは初期状態で、`resolve`, `reject`という関数を持つ。
 * `resolve関数`は`then`メソッドがある。
@@ -192,6 +192,8 @@ instance = instance.finally(() => {
 });
 ```
 
+## 2. Promiseチェーン
+
 メソッド・チェーンを使って短く書ける箇所があるのでやってみる。
 
 ```js
@@ -233,3 +235,39 @@ promiseFactory(0)
   })
   .finally(() => { console.log("処理を終了します。"); });
 ```
+
+### Promiseの管理状態
+
+#### Promiseのステータス一覧
+
+ステータス|説明|
+|---:|---|
+|pending|resolve, rejectが『呼び出される前』の状態|
+|fillFilled|resolveが『呼び出された状態』|
+|rejected|rejectが『呼び出された状態』|
+
+__状態の確認方法__
+
+```js
+// 初期値にundefinedを値として初期化
+let promResolve, promReject;
+
+const prom = new Promise((resolve, reject) => {
+  promResolve = resolve;
+  promReject = reject;
+});
+
+// 状態は、pending
+console.log(prom);
+//=> Promise {<pending>}
+
+// とても不思議なコード。
+// とりあえずこれでPromiseを実行させているそうだ。
+promResolve("hello");
+
+// 状態は、fullfilledとなる。
+console.log(prom);
+//=> Promise {<fulfilled>: 'hello'}
+```
+
+
