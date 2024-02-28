@@ -243,8 +243,9 @@ promiseFactory(0)
 ステータス|説明|
 |---:|---|
 |pending|resolve, rejectが『呼び出される前』の状態|
-|fillFilled|resolveが『呼び出された状態』|
+|fillfilled|resolveが『呼び出された状態』|
 |rejected|rejectが『呼び出された状態』|
+|settled|fillfilled、または、rejected|
 
 __状態の確認方法__
 
@@ -277,7 +278,7 @@ console.log(prom);
 
 __全て__ の非同期処理を __並列に実行__ し、 __全て__ の __完了__ を待ってから __次の処理__ を行う。
 
-__記法__
+__構文__
 
 > Promise.all(_**iterablePromises**_)
 > 　.then((_**resolveArray**_) => { ... })
@@ -289,10 +290,11 @@ __実行イメージ__
 > Promise.all([_**fulfilled**_, _**rejected**_, _**fulfilled**_]); => catchメソッドの実行
 
 例）
+引数に値を入れて、非同期関数のコールバックで色々処理して
+__結果を同時に出力できるということかな？__
+とりあえず、そう理解しておく。
 
 ```js
-// 引数に値を入れて、非同期関数のコールバックで色々処理して
-// 結果を同時に送ることができるということかな？
 function wait(ms, greet) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -329,4 +331,191 @@ Promise.all([wait1, wait2, wait3])
 //   2.
 //=> 全てのPromiseが完了しました。
 //=> 400 'hello' 500 'hi' 600 'bye'
+```
+
+#### Promise.race
+
+__実行イメージ__
+
+複数の `Promise` インスタンスのいずれかが状態が`settled（fulfilledまたはrejected）`になったときに、Promise.raceに続くthenメソッドまたはchatchメソッドを実行する。
+どちらが先に呼ばれるかは、非同期関数で設定した時間による。
+
+> Promise.race([_pending_, _pending_, _**fulfilled**_]); => thenメソッドの実行
+> 　　　　　　　　　　または、
+> Promise.race([_pending_, _**rejected**_, _pending_]); => catchメソッドの実行
+
+__構文__
+
+> Promise.race(_**iterablePromises**_)
+> 　.then((_**firstResolveValue**_) => { ... })
+> 　.catch((_**error**_) => { ... })
+
+例）
+
+```javascript
+// resolve, rejectに渡す引数をPromise.race()の引数に渡す。
+const myResolve = new Promise(resolve => {
+  setTimeout(() => {
+    resolve("resolveが呼ばれました。");
+    console.log("myResolveの実行が終了しました。");
+  }, 300);
+});
+
+const myReject = new Promise((_, reject) => {
+  setTimeout(() => {
+    reject("rejectが実行されました。");
+    console.log("myRejectが実行が終了しました。");
+  }, 200);
+});
+
+// Promise.race()にmyResolve, myRejectを配列にして引数として渡し、
+// この時点で配列内の関数は実行される。
+Promise.race([myResolve, myReject])
+// どちらか先にsettledした時点でthenまたはcatchのメソッドが実行される。
+  .then(value => {
+    console.log(value);
+  })
+  .catch(value => {
+    console.log(value);
+  })
+// この場合は、
+// myResolve => 300ms後実行
+// myReject =>  200ms後実行
+// なので、myRejectが先にsettledになる。
+// any()関数のように他の非同期関数の処理を待つことなく、
+// catchメソッドを実行して処理は終了する。
+
+//=> myRejectが実行が終了しました。
+//=> rejectが実行されました。
+//=> myResolveの実行が終了しました。
+```
+
+#### Promise.any
+
+__実行イメージ__
+
+複数の`Promiseインスタンス`のいずれかが`fulfilled`になった時点で`thenメソッド`に処理を移す。
+また、全てのインスタンスの状態が`rejected`になった時に、`catchメソッド`を実行する。
+
+> Promise.race([_rejected_, _rejected_, _**fulfilled**_]); => thenメソッドの実行
+> Promise.race([_rejected_, _rejected_, _rejected_]); => catchメソッドの実行
+
+__構文__
+
+> Promise.race(_**iterablePromises**_)
+> 　.then((_**resolveValue**_) => { ... })
+> 　.catch((_**error**_) => { ... })
+
+例）
+
+```javascript
+const myResolve = new Promise(resolve => {
+  setTimeout(() => {
+    resolve("resolve関数が呼ばれました。");
+    console.log("myResolveの処理が終了しました。");
+  }, 200);
+});
+
+const myReject = new Promise((_, reject) => {
+  setTimeout(() => {
+    reject("reject関数が呼ばれました。");
+    console.log("myRejectの処理が終了しました。");
+  }, 100);
+});
+
+// myRejectは、100ms後に処理が行われて結果はrejectなんだけど、
+// 他の非同期関数の結果を待つ。ここ重要。
+// その後、myResolveが実行され結果は、fulfilledなので
+// この関数に関わるthenメソッドが実行される。
+
+Promise.any([myResolve, myReject])
+  .then(value => {
+    console.log(value);
+  })
+  .catch(value => {
+    console.log(value)
+  })
+
+//=> myRejectの処理が終了しました。
+//=> myResolveの処理が終了しました。
+//=> resolve関数が呼ばれました。
+```
+
+
+#### Promise.allSettled
+
+__実行イメージ__
+
+全ての`Promiseインスタンス`の状態が`settled`（`fulfilled`または`rejected`）になった時点で`thenメソッド`に処理を移す。
+
+> Promise.race([_**fulfilled**_, _rejected_, _**fulfilled**_]); => thenメソッドの実行
+
+__構文__
+
+> Promise.race(_**iterablePromises**_)
+> 　.then((_**any**_) => { ... })
+
+例）
+
+```javascript
+const myResolve = new Promise(resolve => {
+  setTimeout(() => {
+    resolve("resolveが呼ばれました。");
+    console.log("myResolveの実行が終了しました。");
+  }, 200);
+});
+
+const myReject = new Promise((_, reject) => {
+  setTimeout(() => {
+    reject("rejectが呼ばれました。");
+    console.log("myRejectの実行が終了しました。");
+  }, 100);
+});
+
+// myResolve, myRejectの状態がsettledになるまで、後続の処理（then）を待機する。
+// fulfilled => valueプロパティにresolveの引数が渡る。
+// rejected => reasonプロパティにrejectの引数が渡る。
+
+Promise.allSettled([myResolve, myReject])
+  // 引数の配列はわざわざ初期化などせずともいきなり置ける。便利。
+  .then(arr => {
+    for(const { status, value, reason } of arr) {
+      console.log(`ステータス：${ status }, 値：${ value }, エラー：${ reason }`);
+    }
+  })
+
+// myRejectの実行が終了しました。
+// myResolveの実行が終了しました。
+// ステータス：fulfilled, 値：resolveが呼ばれました。, エラー：undefined
+// ステータス：rejected, 値：undefined, エラー：rejectが呼ばれました。
+```
+
+#### その他の静的メソッド
+
+特定の処理を非同期処理として実行したい場合に使える。
+ちなみに、reject()関数はほぼ使わない。
+
+```js
+let val = 0;
+// 非同期に設定する。その1 resolve()
+Promise.resolve().then(() => {
+  console.log(`非同期では、valの値は${ val }です。`);
+})
+// グローバル・スコープで関数の実行。
+console.log(`グローバル・コンテキストの終了。ちなみに変数valの値は、${ val }です。`);
+// 変数の更新。
+val = 1;
+
+
+// 非同期に設定する。その2 reject()
+Promise.reject("エラーの理由").catch(error => {
+  console.error(error);
+})
+// グローバル・スコープで関数の実行。
+console.log("グローバル・コンテキストの終了。");
+
+//=> グローバル・コンテキストの終了。ちなみに変数valの値は、0です。
+//=> グローバル・コンテキストの終了。
+//=> 非同期では、valの値は1です。
+//=> エラーの理由
 ```
