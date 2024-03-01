@@ -1,18 +1,62 @@
-console.log("A");
+// function delay(fn, msg, ms) {
+//   setTimeout(function() {
+//     fn(msg);
+//   }, ms);
+// }
 
-setTimeout(() => {
-  queueMicrotask(() => console.log("B"));
-  console.log("C");
-});
+// delay(console.log, "hello", 1000);
+// delay(alert, "bye", 2000);
+// delay(console.log, "こんにちは", 500);
 
-Promise.resolve().then(() => console.log("D"));
 
-console.log("E");
 
-// A -> E -> D -> C -> B
+// function delay(fn, msg, ms) {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       fn(msg);
+//       resolve();
+//     }, ms);
+//   });
+// }
 
-// A、Eのみ同期的に実行されるため、まずA → Eの順でログが表示されます。
-// 次に、Dはジョブキュー、Cはタスクキューなので、Dのジョブから実行されます。
-// その後、setTimeoutのコールバック関数が実行されますが、
-// Bはジョブキューに登録されるので、さらに非同期で実行されます。
-// そのため、Cの実行が同期的に行われてから、Bが実行されます。
+// delay(console.log, "hello", 1000)
+//   .then(() => {
+//     console.log("Delay finished");
+//   })
+//   .catch((error) => {
+//     console.error("Error occurred:", error);
+//   })
+//   .finally(console.log("処理を終了します。"));
+
+
+// // delay((msg) => {
+// //   console.log(msg);
+// //   delay((msg) => {
+// //     console.log(msg);
+// //   }, "さらに、1秒経ちました。", 1000);
+// // }, "1秒経ちました。", 1000);
+
+
+function delay(fn, msg, ms) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      fn(msg);
+      if (typeof fn !== "function" || msg === "" || ms === 0) {
+        reject();
+      } else {
+        resolve();
+      }
+    }, ms);
+  });
+}
+
+delay(console.log, "hello", 1000)
+  .then(() => delay(console.log, "bye", 1000))
+  .then(() => delay(console.log, "", 1000))
+  .then(() => delay(alert, "こんにちは", 1000))
+  .catch((error) => {
+    console.error("エラーが発生:", error);
+  })
+  .finally(() => {
+    console.log("処理は終了しました。")
+  });
