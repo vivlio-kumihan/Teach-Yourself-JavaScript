@@ -1,62 +1,28 @@
-// function delay(fn, msg, ms) {
-//   setTimeout(function() {
-//     fn(msg);
-//   }, ms);
-// }
+// Promise.all
+// 最初にやったサンプルのように、関数を一行ずつ実行するような状態を再現できる。
+// コール・スタックにグローバル・コンテキストが無くなるのをイベント・ループは検知して、
+// タスク・キューにあるタスクを順に実行していく。
+// ほぼ瞬時に入るので関数は一斉に発火し、延滞時間によって実行がコントロールされるように見えるわけだ。
+// 延滞時間とメッセージを引数に持たせた関数をPromise.allで実行する。
 
-// delay(console.log, "hello", 1000);
-// delay(alert, "bye", 2000);
-// delay(console.log, "こんにちは", 500);
-
-
-
-// function delay(fn, msg, ms) {
-//   return new Promise((resolve, reject) => {
-//     setTimeout(() => {
-//       fn(msg);
-//       resolve();
-//     }, ms);
-//   });
-// }
-
-// delay(console.log, "hello", 1000)
-//   .then(() => {
-//     console.log("Delay finished");
-//   })
-//   .catch((error) => {
-//     console.error("Error occurred:", error);
-//   })
-//   .finally(console.log("処理を終了します。"));
-
-
-// // delay((msg) => {
-// //   console.log(msg);
-// //   delay((msg) => {
-// //     console.log(msg);
-// //   }, "さらに、1秒経ちました。", 1000);
-// // }, "1秒経ちました。", 1000);
-
-
-function delay(fn, msg, ms) {
+const wait = (ms, message) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      fn(msg);
-      if (typeof fn !== "function" || msg === "" || ms === 0) {
-        reject();
-      } else {
-        resolve();
+      console.log(`${ ms }秒後にメッセージ：${ message }を出力する。`);
+      if (typeof ms !== "number" || typeof message !== "string" || message === "") {
+        reject([ms, message]);
+      } else { 
+        resolve([ms, message]);
       }
     }, ms);
   });
-}
+};
 
-delay(console.log, "hello", 1000)
-  .then(() => delay(console.log, "bye", 1000))
-  .then(() => delay(console.log, "", 1000))
-  .then(() => delay(alert, "こんにちは", 1000))
-  .catch((error) => {
-    console.error("エラーが発生:", error);
-  })
-  .finally(() => {
-    console.log("処理は終了しました。")
+Promise.all([wait(1000, "hello"), wait(0, "bye"), wait(2000, "はい")])
+  // つまり、ここのthen関数はおまけ。なくてもいいんです。
+  .then(([resolved1, resolved2, resolved3]) => {
+    console.log("全てのPromiseが完了しました。");
+    console.log(resolved1[0], resolved1[1], 
+                resolved2[0], resolved2[1], 
+                resolved3[0], resolved3[1]);
   });

@@ -72,7 +72,7 @@ console.log(val);
 * コールスタックが空になったタイミングで、 __タクス・キューの順__ にコールスタックへ入り実行。
 __順に入った上__ で、n秒待つものはn秒待ってから、0秒のものは0秒待ってから実行される。
 * ここがポイントで、コールスタックへ各タスクが入って、__各タスク内で定義されているコールバック関数を前から順にほぼ瞬間で処理する（人間の感覚的に同時に実行する。）。__　だからこそ、各タスクに設定した待ち（延滞）時間が影響するわけ。
-* そこでこの待ち（延滞）時間さえもコントロールするための仕組みが作ってある。後述。
+* そこでこの待ち（延滞）時間をコントロールするための仕組みが作ってある。後述。
 ```js
 setTimeout(() => { console.log("A"); }, 1000);
 setTimeout(() => { console.log("B"); }, 0);
@@ -84,8 +84,8 @@ __答え => C -> B -> A の順で実行される。__
 
 ## 非同期処理の取り扱い
 
-非同期処理は、コール・スタックに積み上がっている実行コンテキストが全て終了した後に実行される。
-そのため、非同期処理で処理した __『値』__ を取得しててからなんらかの処理を行うには注意が必要。
+> * 非同期処理は、コール・スタックに積み上がっている実行コンテキストが全て終了した後に実行される。
+> * そのため、非同期処理で処理した __『値』__ を取得しててからなんらかの処理を行うには注意が必要。
 
 例題）
 
@@ -133,8 +133,10 @@ timer(handler);
 
 例題）
 
-> 1秒後に「こんにちは」とコンソールに表示。
-  2秒後に「さようなら」とアラートに表示するコードをコードを書きさコードを書く。
+> * delay()関数を定義して、1秒後に「こんにちは」とコンソールに表示。
+  2秒後に「さようなら」とアラートに表示するコードを書く。
+> * このコードで確認したいことは、コール・スタックに実行コンテキストが無いことをイベント・ループが検知して、実行待ちのタスク関数をタスク・キューから取得、実行する際に、何も指示をしないと待機していたタスクは、ほぼ同時にスタート地点に立つということ。タスクに仕込んである非同期関数の待機時間の順に関数は処理されて行くこと。
+> * 『さようなら』を0秒にすれば言っていることを理解できる。
 
 * delay関数を使って表現する。
   関数の引数に『関数』『メッセージ』『時間』をとり、関数へはコンソールかアラート表示の関数を呼び出して作動させる。
@@ -161,7 +163,8 @@ delay(alert, "さようなら", 2000);
 
 例題）
 
-> 先の __2つの関数の実行__ を __一つにまとめる__ 。
+> * 先の __2つの関数の実行__ を __一つにまとめる__ 。
+> ここで確認することは、非同期関数を順番に処理するには、非同期関数のネストしないとできないということ。
 
 * 非同期処理のネストを書く。 
   delay関数をネストして呼び出し、つまり、delay関数の中で無名関数をネストすればいい。
@@ -194,39 +197,64 @@ Promiseは、`非同期処理を扱うオブジェクト`。
   2秒後に「さようなら」とアラートに表示するコードをコードを書きさコードを書く。
 
 ```js
-
-function delay(fn, msg, ms) {
-  return new Promise((resolve, reject) => {
+const delay = (func, msg, ms) => {
+  return ins = new Promise((resolve, reject) => {
     setTimeout(() => {
-      fn(msg);
-      if (typeof fn !== "function" || msg === "" || ms === 0) {
-        reject();
+      func(msg);
+      if (typeof func !== "function" 
+              || msg === "" 
+              || typeof ms !== "number") {
+        reject("引数に間違いがあります。");
       } else {
         resolve();
       }
-    }, ms);
+    }, ms)
   });
-}
+};
 
 delay(console.log, "hello", 1000)
-  .then(() => delay(console.log, "bye", 1000))
-  .then(() => delay(console.log, "", 1000))
-  .then(() => delay(alert, "こんにちは", 1000))
+  .then(() => {
+    return delay(console.log, "bye", 1000);
+  })
+  .then(() => {
+    return delay(alert, "はーい", 1000);
+  })
   .catch((error) => {
-    console.error("エラーが発生:", error);
+    console.error("エラーが発生：", error);
   })
   .finally(() => {
-    console.log("処理は終了しました。")
+    console.log("処理の終了");
   });
-
 ```
-
-例）
 復習がてらにやってみた。
 __複雑になるネストを回避し、コードの可読性を上げることができた。__
-その上で、ランダムに整数を生成させて、5以上であれば成功、未満であればエラーを、処理が終わったら終了させるというコードを書いてみる。
+
+例）
+
+> では、改めてPromiseで非同期処理を書く。
+> * `Promise`の`コールバック関数`の`中に仕込む非同期関数`をインスタンス化する。
+> * そのインスタンスを`then()関数`・`catch()関数`・`finally()関数`で呼んでやって（発火させて）処理をするというもの。
+
+ランダムに整数を生成させて、5以上であれば成功、未満であればエラーを、処理が終わったら終了させるというコードを書いてみる。
+
+* 仮でインスタンスを作る。
+* then, catch, finallyの流れでインスタンスを呼ぶ。
+* とりあえず形を作る。
+  
+```js
+let ins = new Promise((resolve, reject) => {});
+
+ins.then((varlue) => {})
+  .cathc((error) => { "エラー発生:", error })
+  .finally(console.log("処理終了"));
+```
+
+コールバック関数に非同期処理を書く。
+
+
 
 ```js
+// その1
 let instance = new Promise((resolve, reject) => {
   setTimeout(() => {
     // 0から10までの整数をランダムに生成させる。
@@ -256,6 +284,7 @@ instance = instance.finally(() => {
 偶数なら成功、奇数ならエラーを、処理が終わったら終了させるコードを書く。
 
 ```js
+// その2
 let instance = new Promise((resolve, reject) => {
   setTimeout(() => {
     // 0から10までの整数をランダムに生成させる。
@@ -287,9 +316,58 @@ instance = instance.finally(() => {
 });
 ```
 
+
 ## 2. Promiseチェーン
 
-メソッド・チェーンを使って短く書ける箇所があるのでやってみる。
+Promiseチェーンで先ほどのコードを書き直してみる。
+returnでしっかり返さないと上手く動かない点に注意。
+
+```js
+// その1
+let ins = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    const val = Math.floor(Math.random() * 11);
+    if (val < 5) {
+      reject(val);
+    } else {
+      resolve(val);
+    }
+  }, 1000);
+});
+
+ins.then((value) => {
+    return console.log(`ランダムに生成された数字は、${ value }です。`);
+  })
+  .catch((error) => { 
+    return console.log(`今回、ランダムに生成された数字${ error }は、設定した値より小さいです。`) 
+  })
+  .finally(() => { console.log("処理終了") });
+
+
+// その2
+let ins = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    const getSec = new Date().getSeconds();
+    if (getSec % 2) {
+      reject(getSec);
+    } else {
+      resolve(getSec);
+    }
+  }, 1000);
+});
+
+ins.then((value) => {
+    return console.log(`${ value }秒は偶数なので成功とします。`);
+  })
+  .catch((error) => { 
+    return console.log(`${ error }秒は奇数なのでエラーとします。`) 
+  })
+  .finally(() => { console.log("処理終了") });
+
+  
+```
+
+__retrunを書かない場合は一行で書くこと。じゃないと上手く動かないからね。__
 
 ```js
 instance = instance
@@ -298,37 +376,40 @@ instance = instance
   .finally(() => console.log("処理を終了します。"));
 ```
 
-では、1秒ごとに2つずつ数値がインクルメントされてコンソールに表示されるプログラムを
-プロミス・チェーンを使って書く。
+---
+
+> では、1秒ごとに2つずつ数値がインクルメントされてコンソールに表示されるプログラムをプロミス・チェーンを使って書く。
 
 ```js
-function promiseFactory(num) {
+// インスタンスか関数にPromiseを持たせる。
+
+const incrementNum = (number) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      // これも考え方。
-      // 何でもかんでも1行で解決しようとする考えがダメ。
-      // num++ * 2 とかアホかやで。
-      console.log(num);
-      num += 2;
-      if (num > 6) {
-        reject(num);
+      // 単純に考える。
+      // 出力してからインクリメント演算子かけたら
+      // 結果は０から始まり、
+      // 回を重ねるごとに値はインクリメントされる。
+      console.log(number);
+      number += 2;
+      if (number > 6) {
+        reject(number);
       } else {
-        resolve(num);
+        resolve(number);
       }
     }, 1000);
   });
-}
+};
 
-promiseFactory(0)
-  .then(number => { return promiseFactory(number); })
-  .then(number => { return promiseFactory(number); })
-  .then(number => { return promiseFactory(number); })
-  .then(number => { return promiseFactory(number); })
-  .then(number => { return promiseFactory(number); })
-  .catch(errorNumber => {
-    console.error(`エラーに飛びました。現在は${ errorNumber }です。`);
-  })
-  .finally(() => { console.log("処理を終了します。"); });
+incrementNum(0)
+  .then((num) => { return incrementNum(num) })
+  .then((num) => { return incrementNum(num) })
+  .then((num) => { return incrementNum(num) })
+  .then((num) => { return incrementNum(num) })
+  .then((num) => { return incrementNum(num) })
+  .then((num) => { return incrementNum(num) })
+  .catch((error) => { console.log(`エラーの理由：${ error }`)})
+  .finally(() => { console.log("処理の終了")});
 ```
 
 ### Promiseの管理状態
