@@ -471,42 +471,34 @@ __結果を同時に出力できるということかな？__
 とりあえず、そう理解しておく。
 
 ```js
-function wait(ms, greet) {
+// Promise.all
+// 最初にやったサンプルのように、関数を一行ずつ実行するような状態を再現できる。
+// コール・スタックにグローバル・コンテキストが無くなるのをイベント・ループは検知して、
+// タスク・キューにあるタスクを順に実行していく。
+// ほぼ瞬時に入るので関数は一斉に発火し、延滞時間によって実行がコントロールされるように見えるわけだ。
+// 延滞時間とメッセージを引数に持たせた関数をPromise.allで実行する。
+
+const wait = (ms, message) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      console.log(`${ ms }msの処理が完了しました。`);
-      console.log(`${ greet }`);
-      resolve([ms, greet]);
+      console.log(`${ ms }秒後にメッセージ：${ message }を出力する。`);
+      if (typeof ms !== "number" || typeof message !== "string" || message === "") {
+        reject([ms, message]);
+      } else { 
+        resolve([ms, message]);
+      }
     }, ms);
   });
-}
+};
 
-// 関数を実行した状態を初期化。
-// 1. とりあえず実行されてしまうのは仕方ないね。
-const wait1 = wait(400, "hello");
-const wait2 = wait(500, "hi");
-const wait3 = wait(600, "bye");
-
-// 2. 非同期で実行される部分
-Promise.all([wait1, wait2, wait3])
+Promise.all([wait(1000, "hello"), wait(0, "bye"), wait(2000, "はい")])
+  // つまり、ここのthen関数はおまけ。なくてもいいんです。
   .then(([resolved1, resolved2, resolved3]) => {
     console.log("全てのPromiseが完了しました。");
     console.log(resolved1[0], resolved1[1], 
                 resolved2[0], resolved2[1], 
                 resolved3[0], resolved3[1]);
   });
-  
-//   1.
-//=> 400msの処理が完了しました。
-//=> hello
-//=> 500msの処理が完了しました。
-//=> hi
-//=> 600msの処理が完了しました。
-//=> bye
-
-//   2.
-//=> 全てのPromiseが完了しました。
-//=> 400 'hello' 500 'hi' 600 'bye'
 ```
 
 #### Promise.race
