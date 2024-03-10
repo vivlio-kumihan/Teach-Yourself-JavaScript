@@ -462,6 +462,8 @@ __構文__
 
 __実行イメージ__
 
+__（私の中のイメージ）基本的には横一線に並ばせて全て処理する。全ての『fulfilled』を待機時間の順に実行する。『rejected』があれば待機時間に従って処理を中止し、『catch』へ処理を進める。__
+
 > Promise.all([_**fulfilled**_, _**fulfilled**_, _**fulfilled**_]); => thenメソッドの実行
 > Promise.all([_**fulfilled**_, _**rejected**_, _**fulfilled**_]); => catchメソッドの実行
 
@@ -491,13 +493,17 @@ const wait = (ms, message) => {
   });
 };
 
-Promise.all([wait(1000, "hello"), wait(0, "bye"), wait(2000, "はい")])
+Promise.all([wait(1000, "hello"), wait("hoge", "bye"), wait(2000, "はい")])
   // つまり、ここのthen関数はおまけ。なくてもいいんです。
   .then(([resolved1, resolved2, resolved3]) => {
     console.log("全てのPromiseが完了しました。");
     console.log(resolved1[0], resolved1[1], 
                 resolved2[0], resolved2[1], 
                 resolved3[0], resolved3[1]);
+  })
+  .catch(([err1, err2, err3]) => {
+    console.log(`error: ${err1}, ${err2}, ${err3}`);
+    console.log("一部の処理が不十分です。");
   });
 ```
 
@@ -505,8 +511,11 @@ Promise.all([wait(1000, "hello"), wait(0, "bye"), wait(2000, "はい")])
 
 __実行イメージ__
 
+__（私の中のイメージ）待機時間最短で『fulfilled』または、『rejected』を抽出し、『then』または『catch』へ処理を進める。__
+
 複数の `Promise` インスタンスのいずれかが状態が`settled（fulfilledまたはrejected）`になったときに、Promise.raceに続くthenメソッドまたはchatchメソッドを実行する。
 どちらが先に呼ばれるかは、非同期関数で設定した時間による。
+__要は、コール・スタックに同時に入ってから、延滞時間が一番短い非同期関数が時効されて処理は終了するということ。__
 
 > Promise.race([_pending_, _pending_, _**fulfilled**_]); => thenメソッドの実行
 > 　　　　　　　　　　または、
@@ -562,6 +571,8 @@ Promise.race([myResolve, myReject])
 
 __実行イメージ__
 
+__（私の中のイメージ）待機時間最短で『fulfilled』が実行され、『then』へ処理を進める。全ての非同期処理が『reject』の場合には『catch』へ処理を進める。__
+
 複数の`Promiseインスタンス`のいずれかが`fulfilled`になった時点で`thenメソッド`に処理を移す。
 また、全てのインスタンスの状態が`rejected`になった時に、`catchメソッド`を実行する。
 
@@ -613,6 +624,8 @@ Promise.any([myResolve, myReject])
 #### Promise.allSettled
 
 __実行イメージ__
+
+__（私の中のイメージ）待機時間最短で『fulfilled』が実行され、『then』へ処理を進める。__
 
 全ての`Promiseインスタンス`の状態が`settled`（`fulfilled`または`rejected`）になった時点で`thenメソッド`に処理を移す。
 
