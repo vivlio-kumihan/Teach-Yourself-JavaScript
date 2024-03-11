@@ -1,53 +1,142 @@
-const myResolve1 = new Promise((resolve) => {
-  setTimeout(() => {
-    resolve("resolve1が『呼ばれる』。");
-    console.log("myResolve1の『実行』が終了。");
-  }, 1000);
-});
-
-const myResolve2 = new Promise((resolve) => {
-  setTimeout(() => {
-    resolve("resolve2が『呼ばれる』。");
-    console.log("myResolve2の『実行』が終了。");
-  }, 100);
-});
-
-const myResolve3 = new Promise((resolve) => {
-  setTimeout(() => {
-    resolve("resolve3が『呼ばれる』。");
-    console.log("myResolve3の『実行』が終了。");
-  }, 10);
-});
-
-const myReject1 = new Promise((_, reject) => {
-  setTimeout(() => {
-    reject("reject1が『呼ばれる』。");
-    console.log("myReject1の『実行』が終了。");
-  }, 2000);
-});
-
-const myReject2 = new Promise((_, reject) => {
-  setTimeout(() => {
-    reject("reject2が『呼ばれる』。");
-    console.log("myReject2の『実行』が終了。");
-  }, 200);
-});
-
-const myReject3 = new Promise((_, reject) => {
-  setTimeout(() => {
-    reject("reject3が『呼ばれる』。");
-    console.log("myReject3の『実行』が終了。");
-  }, 0);
-});
-
-
-Promise.allSettled([myResolve1, myResolve2, myResolve3, myReject1, myReject2, myReject3])
-  .then((value) => {
-    console.log(value);
-  })
-  .catch((error) => {
-    console.log(error);
-  })
-  .finally(() => {
-    console.log("全ての処理が終了しました。");
+// Q1
+function run(personName) {
+  return new Promise((resolve, reject) => {
+    const time = Math.floor(Math.random() * 11);
+    setTimeout(() => {
+      if (time % 4 === 0) {
+        // データ型をどうするかは、リテラルによって決める。
+        // ここでは連想配列リテラルで送っている。
+        // ここの中身はそれぞれ『キー』であると認識しておく。
+        reject({ personName });
+      } else {
+        resolve({ personName, time });
+      }
+    }, time);
   });
+}
+
+// Promiseチェーンの直列
+
+// 引数を与えてPromiseの最初のインスタント生成する。
+// resolveから渡ってきた引数を展開する。つまりthen関数のコール・バック関数を実行する。
+// 次のインスタンスを生成させる。実行、生成の繰り返し。
+
+// then関数で繋いでいく過程で、それぞれに独自の出力である必要で無いなら
+// 関数化するのがベターなので参考として書く。
+const printResult = ({ personName, time }) => {
+  console.log(`${ personName }が、${ time }秒でゴール！`);
+};
+
+run("太郎")
+.then((result) => {
+  printResult(result);
+// こういう書き方が面倒なら関数にして呼び出す。
+// .then(({ personName, time }) => {
+//   console.log(`${ personName }が、${ time }秒でゴール！`);
+  return run("次郎");
+})
+.then((result) => {
+  printResult(result);
+// .then(({ personName, time }) => {
+//   console.log(`${ personName }が、${ time }秒でゴール！`);
+  return run("三郎");
+})
+.then((result) => {
+  printResult(result);
+// .then(({ personName, time }) => {
+//   console.log(`${ personName }が、${ time }秒でゴール！`);
+})
+.catch(({ personName }) => {
+  console.error(`${ personName }が転倒しました！　レースのやり直しです。`)
+});
+
+// Q2
+function run(personName) {
+  return new Promise((resolve, reject) => {
+    const time = Math.floor(Math.random() * 11);
+    setTimeout(() => {
+      if (time % 4 === 0) {
+        reject({ personName });
+      } else {
+        resolve({ personName, time });
+      }
+    }, time);
+  });
+}
+
+// 反対に、関数化しても行数が増えるだけならこの形式でやる。
+// つまり、臨機応変に対応できないといけないということ。
+Promise.any([run("太郎"), run("次郎"), run("三郎")])
+  .then(({ personName, time }) => {
+    console.log(`${ personName }が、${ time }秒でゴール！`)})
+  .catch(() => {
+    console.error("レースのやり直しです。")});
+
+// Q3
+function run(personName) {
+  return new Promise((resolve, reject) => {
+    const time = Math.floor(Math.random() * 11);
+    setTimeout(() => {
+      if (time % 4 === 0) {
+        reject({ personName });
+      } else {
+        resolve({ personName, time });
+      }
+    }, time);
+  });
+}
+
+Promise.all([run("太郎"), run("次郎"), run("三郎")])
+  .then((results) => {
+    for(const { personName, time } of results) {
+      console.log(`${ personName }のタイムは、${ time }秒です。`);
+    }
+  })
+  .catch(({ personName }) => {
+    console.error(`${ personName }が転けました。レースのやり直しです。`)});
+
+// Q4
+function run(personName) {
+  return new Promise((resolve, reject) => {
+    const time = Math.floor(Math.random() * 11);
+    setTimeout(() => {
+      if (time % 4 === 0) {
+        reject({ personName });
+      } else {
+        resolve({ personName, time });
+      }
+    }, time);
+  });
+}
+
+// status, value, reasonの使い分けを意識できないとallSettledは覚えられないよ。
+Promise.allSettled([run("太郎"), run("次郎"), run("三郎")])
+  .then((result) => {
+    for(const { status, value, reason } of result) {
+      if (status === "fulfilled") {
+        console.log(`${ value.personName }が${ value.time }秒でゴールしました。`);
+      } else {
+        console.error(`${ reason.personName }が転けました。`);
+      }
+    }
+  });
+
+// Q5
+function run(personName) {
+  return new Promise((resolve, reject) => {
+    const time = Math.floor(Math.random() * 11);
+    setTimeout(() => {
+      if (time % 4 === 0) {
+        reject({ personName });
+      } else {
+        resolve({ personName, time });
+      }
+    }, time);
+  });
+}
+
+Promise.race([run("太郎"), run("次郎"), run("三郎")])
+  .then(({ personName, time }) => {
+    console.log(`${ personName }が、${ time }秒でゴール！`)})
+  .catch(({ personName }) => {
+    console.error(`${ personName }が転びました。`)});
