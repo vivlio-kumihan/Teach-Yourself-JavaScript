@@ -886,3 +886,41 @@ Promise.race([run("太郎"), run("次郎"), run("三郎")])
   .catch(({ personName }) => {
     console.error(`${ personName }が転びました。`)});
 ```
+
+# await / async
+
+## async
+
+関数の先頭につけることで、非同期関数という特殊な関数を定義できる。
+非同期関数の`『return』が返す値は必ずPromiseインスタンス`になる。
+
+```js
+async function asyncFunction() {
+  return "hello";
+}
+
+asyncFunction().then((arg) => {
+  console.log(arg);
+});
+```
+
+コード量が減って便利。
+
+```js
+const asyncFunction = () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve("hello");
+    })
+  }, 0);
+};
+
+asyncFunction().then((arg) => {
+  console.log(arg);
+});
+```
+
+## await
+
+Promiseインスタンスの前に記述することで、Promiseインスタンスが`settledになるまで、後続のコードの実行を待機`する。
+
