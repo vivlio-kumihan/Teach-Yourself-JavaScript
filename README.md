@@ -924,3 +924,39 @@ asyncFunction().then((arg) => {
 
 Promiseインスタンスの前に記述することで、Promiseインスタンスが`settledになるまで、後続のコードの実行を待機`する。
 
+直列のコードを書き換えてみる。
+
+```js
+// Q1
+function run(personName) {
+  return new Promise((resolve, reject) => {
+    const time = Math.floor(Math.random() * 11);
+    setTimeout(() => {
+      if (time % 4 === 0) {
+        reject({ personName });
+      } else {
+        resolve({ personName, time });
+      }
+    }, time);
+  });
+}
+
+const printResult = ({ personName, time }) => {
+  console.log(`${ personName }が、${ time }秒でゴール！`);
+};
+
+async function excute() {
+  try {
+    let result = await run("太郎");
+    printResult(result);
+    result = await run("次郎");
+    printResult(result);
+    result = await run("三郎");
+    printResult(result);
+  } catch({ personName }) {
+    console.error(`${ personName }が転倒しました！　レースのやり直しです。`)
+  }
+}
+
+excute();
+```
