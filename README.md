@@ -1006,3 +1006,34 @@ async function excute() {
 
 excute();
 ```
+
+# Fetch
+
+
+
+```js
+// fetch("sample.json")
+//   .then((response) => response.json())
+//   .then((data) => {
+//     for(const { key, value } of data) {
+//       console.log(`${ key }: ${ value }`);
+//     }
+//   });
+
+async function myFetch() {
+  const response = await fetch("sample.json");
+  const data = await response.json();
+  for(const { key, value } of data) {
+    console.log(`${ key }: ${ value }`);
+  }
+}
+myFetch();
+```
+
+```json
+[
+  { "key": "apple", "value": "りんご"},
+  { "key": "orange", "value": "みかん"},
+  { "key": "grape", "value": "ぶどう"}
+]
+```
