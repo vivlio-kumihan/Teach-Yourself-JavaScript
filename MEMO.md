@@ -321,3 +321,131 @@ typeof
 +
 -
 ```
+
+## 前置式、後置式インクリメント演算子
+
+```js
+// 後置式インクリメント演算子
+// 値は1増やすが、返す値は直前の値を返す。
+let a = 0;
+console.log(a++); // => 0
+
+let v = a++;
+console.log(a);   // => 2
+console.log(v);   // => 1
+
+v = a++;
+console.log(a);   // => 3
+console.log(v);   // => 2
+
+// 前置式インクリメント演算子
+// 値は1増やす、そして、返す値も1増やして返す。
+let b = 0;
+console.log(++b); // => 1
+let z = ++b;
+console.log(b)    // => 2
+console.log(z)    // => 2
+```
+
+## 関係演算子
+
+```js
+const ans3 = (9 > 3) * 3 ? "true" : "false";
+console.log(ans3); // => True!!!
+console.log((9 > 3) * 3) // => 1 * 3と同義!!!
+```
+
+## try, catch, finally, throw new Classname
+```php
+try {
+  let greeting = 1;
+  // let greeting = "Nobuyuki";
+  // if (typeof greeting !== "String") {
+  if (!(greeting instanceof String)) {
+    throw new Error("不正なデータ型です。");
+  }
+  console.log(`${ greeting }さん、いい天気ですね。`);
+} catch (error) {
+  console.error(error.name);
+  console.error(error.message);
+}
+```
+
+```php
+try {
+  let greeting = 1;
+  // let greeting = "Nobuyuki";
+  // if (typeof greeting !== "String") {
+  if (!(greeting instanceof String)) {
+    throw new Error("不正なデータ型です。");
+  }
+  console.log(`${ greeting }さん、いい天気ですね。`);
+} catch (error) {
+  console.error(error.name);
+  console.error(error.message);
+}
+```
+
+## while, for, reduce
+
+```php
+let num = 0;
+while (num <= 6) {
+  console.log(num);
+  num += 2;
+}
+for(let num = 0; num < 10; num += 3) {
+  console.log(num);
+}
+const arr = [10, 20, 23, 47];
+let sum = 0;
+for(let idx = 0; idx < arr.length; idx++) {
+  sum += arr[idx];
+}
+console.log(sum);
+const arr = [10, 20, 23, 47];
+const renewArr = arr.reduce((sum, val) => {
+  return sum + val;
+}, 0);
+console.log(renewArr);
+```
+
+## 関数
+
+```javascript
+// 関数にオブジェクトを渡すときに
+// 起こる問題点
+function fn(obj2) {
+  // obj2と名称は一緒だが、
+  // 別名で違うオブジェクトを設定していることになる。
+  obj2 = { val: 2 };
+}
+const obj = { val: 1 };
+fn(obj);
+console.log(obj.val); //=> 1
+// 仮引数にオブジェクトを与えると。。。
+function fn(obj2) {
+  // これは、
+  // 渡ってきたオブジェクトのvalメソッドを充てて
+  // 値を『更新』していることになる。
+  obj2.val = 2;
+}
+// 実引数のオブジェクトにどんな値を設定しても、
+// 関数内で変更されるから、ここで何をしても関係ない。
+const obj = { val: 100 };
+fn(obj);
+console.log(obj.val); //=> 2
+```
+
+## コールバック関数
+
+```js
+// setTimeout
+// 組み込み関数でコールバック関数をとる筆頭
+function hello(name) {
+  console.log(`こんにちは、${ name }さん！`);
+}
+
+setTimeout(hello, 3000, "髙廣");
+```
+
