@@ -546,23 +546,132 @@
 // console.log(profile.name);
 // console.log(profile.age);
 
-class User {
-  constructor(userName, passWord) {
-    this.userName = userName;
-    this.passWord = passWord;
-  }
+// class User {
+//   constructor(userName, passWord) {
+//     this.userName = userName;
+//     this.passWord = passWord;
+//   }
   
-  logIn() {
-    console.log(`log in ${ this.userName } / ${ this.passWord }`);
-  }
+//   logIn() {
+//     console.log(`log in ${ this.userName } / ${ this.passWord }`);
+//   }
 
-  changePW(pwd) {
-    this.passWord = pwd;
-    console.log(`Change Pass Word: ${ this.passWord }`);
-  }
+//   changePW(pwd) {
+//     this.passWord = pwd;
+//     console.log(`Change Pass Word: ${ this.passWord }`);
+//   }
+// }
+
+// const tk = new User("髙廣", "123");
+// tk.logIn();
+// tk.changePW("hello");
+// tk.logIn();
+
+
+
+
+// thisのルートはWindow
+console.log(this);
+
+// =====
+
+// メソッドからの呼び出しとコールバック関数からの呼び出しの違い
+
+// ////////////////////// 関数を呼んだ場合のthis
+
+// windowオブジェクトの
+//     nameメソッドに『John』を仕込み、
+window.name = "John";
+
+// windowオブジェクトにhello関数を定義、『this===window』。
+function hello() {
+  console.log(`Hello, ${ this.name }!`);
 }
 
-const tk = new User("髙廣", "123");
-tk.logIn();
-tk.changePW("hello");
-tk.logIn();
+// hello関数を呼んだら中身が返ってくる。
+hello(); //=> Hello, John!
+
+// 『paul』オブジェクトの
+//     nameメソッドに『Paul』を仕込み、
+//     helloメソッドにhello関数を『設定』する。
+const paul = {
+  name: "Paul",
+  hello: hello
+}
+
+// paulオブジェクトへhelloメソッドを送信したら、
+// 設定されているhello関数の中身が呼ばれてここで『実行される』。
+// ここで『実行される』から『this』の中身はpaulオブジェクトなわけ。
+paul.hello(); //=> Hello, Paul!
+
+// =====
+
+// ////////////////////// コールバック関数を呼んだ場合のthis
+
+// windowオブジェクトのメソッドに『John』を仕込み、
+window.name = "John";
+// 『Paul』オブジェクトを定義する。
+const paul = {
+  // nameメソッドにを仕込む。
+  name: "Paul",
+  // さっきは、helloメソッドの中身は、
+  // hello関数を設定しているだけ。
+  // hello: hello
+  
+  // helloメソッドの中身は関数の実行。
+  hello: function () {
+    console.log(`Hello, ${ this.name }!`);
+  }
+}
+// greet関数が属しているのはWindowオブジェクト
+// cb===paul.hello
+
+// cbにやってくるのはpaulオブジェクトのhelloメソッドの『実行』
+function greet(cb) {
+  // つまリ、Windowオブジェクトに属している状態で関数が実行される。
+  // this===Window　この状態で、参照される関数は、
+  // function () {
+  //   console.log(`Hello, ${ this.name }!`)
+  // }
+  cb();
+}
+greet(paul.hello); //=> Hello, John!
+
+
+// ////////////////////// アロー関数のthis
+
+// アロー関数はレキシカル・スコープを辿ってthisを探す、
+// レキシカル・スコープは、
+// 関数が『定義されている位置』によって決定されるスコープ
+
+window.name = "Nobuyuki";
+
+// アロー関数のthisは『Window』
+const which = () => {
+  console.log(`Here is ${ this.name }`);
+}
+
+const kazue = {
+  name: "Kazue",
+  // この無名関数の『this』は『kazue』
+  here: function () {
+    console.log(`Here is ${ this.name }`);
+  },
+  // ここも、無名関数の『this』は『kazue』
+  callName: function () {
+    // ここでは、アロー関数を呼んでいる。
+    // アロー関数はレキシカル・スコープをたどる。
+    // つまり、このアロー関数が定義されている位置を参照しよるわけ。
+    // となると、『window』となる。
+    which();
+  }
+  //    ちなみに、オブジェクト・リテラル内のメソッドの略記記法は、
+  //    無名関数のメソッド定義と同じ。
+  //    なので通常はこう書く。
+  // callName() {
+  //   which();
+  // }
+}
+
+kazue.here() //=> Here is Kazue
+kazue.callName(); //=> Here is Nobuyuki
