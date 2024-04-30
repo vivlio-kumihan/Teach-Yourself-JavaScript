@@ -570,108 +570,202 @@
 
 
 
-// thisのルートはWindow
-console.log(this);
+// // thisのルートはWindow
+// console.log(this);
 
-// =====
+// // =====
 
-// メソッドからの呼び出しとコールバック関数からの呼び出しの違い
+// // メソッドからの呼び出しとコールバック関数からの呼び出しの違い
 
-// ////////////////////// 関数を呼んだ場合のthis
+// // ////////////////////// 関数を呼んだ場合のthis
 
-// windowオブジェクトの
-//     nameメソッドに『John』を仕込み、
-window.name = "John";
+// // windowオブジェクトの
+// //     nameメソッドに『John』を仕込み、
+// window.name = "John";
 
-// windowオブジェクトにhello関数を定義、『this===window』。
+// // windowオブジェクトにhello関数を定義、『this===window』。
+// function hello() {
+//   console.log(`Hello, ${ this.name }!`);
+// }
+
+// // hello関数を呼んだら中身が返ってくる。
+// hello(); //=> Hello, John!
+
+// // 『paul』オブジェクトの
+// //     nameメソッドに『Paul』を仕込み、
+// //     helloメソッドにhello関数を『設定』する。
+// const paul = {
+//   name: "Paul",
+//   hello: hello
+// }
+
+// // paulオブジェクトへhelloメソッドを送信したら、
+// // 設定されているhello関数の中身が呼ばれてここで『実行される』。
+// // ここで『実行される』から『this』の中身はpaulオブジェクトなわけ。
+// paul.hello(); //=> Hello, Paul!
+
+// // =====
+
+// // ////////////////////// コールバック関数を呼んだ場合のthis
+
+// // windowオブジェクトのメソッドに『John』を仕込み、
+// window.name = "John";
+// // 『Paul』オブジェクトを定義する。
+// const paul = {
+//   // nameメソッドにを仕込む。
+//   name: "Paul",
+//   // さっきは、helloメソッドの中身は、
+//   // hello関数を設定しているだけ。
+//   // hello: hello
+  
+//   // helloメソッドの中身は関数の実行。
+//   hello: function () {
+//     console.log(`Hello, ${ this.name }!`);
+//   }
+// }
+// // greet関数が属しているのはWindowオブジェクト
+// // cb===paul.hello
+
+// // cbにやってくるのはpaulオブジェクトのhelloメソッドの『実行』
+// function greet(cb) {
+//   // つまリ、Windowオブジェクトに属している状態で関数が実行される。
+//   // this===Window　この状態で、参照される関数は、
+//   // function () {
+//   //   console.log(`Hello, ${ this.name }!`)
+//   // }
+//   cb();
+// }
+// greet(paul.hello); //=> Hello, John!
+
+
+// // ////////////////////// アロー関数のthis
+
+// // アロー関数はレキシカル・スコープを辿ってthisを探す、
+// // レキシカル・スコープは、
+// // 関数が『定義されている位置』によって決定されるスコープ
+
+// window.name = "Nobuyuki";
+
+// // アロー関数のthisは『Window』
+// const which = () => {
+//   console.log(`Here is ${ this.name }`);
+// }
+
+// const kazue = {
+//   name: "Kazue",
+//   // この無名関数の『this』は『kazue』
+//   here: function () {
+//     console.log(`Here is ${ this.name }`);
+//   },
+//   // ここも、無名関数の『this』は『kazue』
+//   callName: function () {
+//     // ここでは、アロー関数を呼んでいる。
+//     // アロー関数はレキシカル・スコープをたどる。
+//     // つまり、このアロー関数が定義されている位置を参照しよるわけ。
+//     // となると、『window』となる。
+//     which();
+//   }
+//   //    ちなみに、オブジェクト・リテラル内のメソッドの略記記法は、
+//   //    無名関数のメソッド定義と同じ。
+//   //    なので通常はこう書く。
+//   // callName() {
+//   //   which();
+//   // }
+// }
+
+// kazue.here() //=> Here is Kazue
+// kazue.callName(); //=> Here is Nobuyuki
+
+// let val1 = 789;
+// let val2 = 3;
+// let val3 = 789 % 3;
+// console.log(val1 / val2);
+
+
+
+
+// // bindによるthisの束縛
+// // Windowオブジェクトにnameメソッドを設定。
+// window.name = 'Paul';
+
+// // これを利用して関数を作成。
+// function hello(greeting) {
+//   console.log(greeting + this.name);
+// }
+
+// // 実行。
+// hello('こんにちは、'); //=> こんにちは、Paul
+
+// // johnオブジェクトのnameメソッドに値を設定。
+// const john = {
+//   name: 'John'
+// }
+
+// // thisの参照先をjohnオブジェクトによってthisを束縛して別名保存。
+// // 関数名.bind(束縛するオブジェクト、関数に渡す引数（複数可）)
+// const helloJohn = hello.bind(john, 'Hello, ');
+// helloJohn();
+
+// // 関数の引数として渡すコールバック関数でよく使う場面があるかもね。
+// window.name = "Nobuyuki";
+
+// const kaz = {
+//   name: "Kazue",
+//   hello: function() {
+//     console.log(`こんにちは、${ this.name }`);
+//   }
+// }
+
+// setTimeout(kaz.hello, 3000);
+// setTimeout(kaz.hello.bind(kaz), 3000);
+
+// // callメソッド
+// // 別名保存せず、オブジェクトのthisを束縛して即座に関数を実行する。
+// const nob = { name: "nobuyuki"};
+// function hello(greeting) {
+//   console.log(`${ greeting }, ${ this.name }`)
+// }
+// hello.call(nob, "Hello");
+
+// // applyメソッド
+// // 普通に関数を実行した方がいいのでは？
+// function hello(greeting, name) {
+//   console.log(`${ greeting }, ${ name }`)
+// }
+// hello.apply(null, ["Hello", "Kazue"]);
+// hello("Hello", "Kazue");
+
+// // こういう使い方もあるってことで。。。
+// const vals = [1,2,3,4,5];
+// // 配列の値を欲しいのでこうなるのを。。。
+// console.log(Math.max(vals[0], vals[1], vals[2], vals[3], vals[4]));
+// // 便利になるのだが。。。
+// console.log(Math.max.apply(null, vals));
+// // スプレッド演算子を使った方がより便利。。。
+// console.log(Math.max(...vals));
+
+// 関数として実行されている。
+window.greeting = "こんにちは";
 function hello() {
-  console.log(`Hello, ${ this.name }!`);
+  console.log(this.greeting);
 }
+hello(); //=> こんにちは
 
-// hello関数を呼んだら中身が返ってくる。
-hello(); //=> Hello, John!
-
-// 『paul』オブジェクトの
-//     nameメソッドに『Paul』を仕込み、
-//     helloメソッドにhello関数を『設定』する。
-const paul = {
-  name: "Paul",
+// メソッドとして実行されている。
+const dog = { 
+  greeting: "わんわん",
   hello: hello
 }
+dog.hello(); //=> わんわん
 
-// paulオブジェクトへhelloメソッドを送信したら、
-// 設定されているhello関数の中身が呼ばれてここで『実行される』。
-// ここで『実行される』から『this』の中身はpaulオブジェクトなわけ。
-paul.hello(); //=> Hello, Paul!
-
-// =====
-
-// ////////////////////// コールバック関数を呼んだ場合のthis
-
-// windowオブジェクトのメソッドに『John』を仕込み、
-window.name = "John";
-// 『Paul』オブジェクトを定義する。
-const paul = {
-  // nameメソッドにを仕込む。
-  name: "Paul",
-  // さっきは、helloメソッドの中身は、
-  // hello関数を設定しているだけ。
-  // hello: hello
-  
-  // helloメソッドの中身は関数の実行。
-  hello: function () {
-    console.log(`Hello, ${ this.name }!`);
-  }
+// 想定外だった。
+// メソッドとして実行されている。
+const gorilla = {
+  greeting: "ウホウホ",
+  hello
 }
-// greet関数が属しているのはWindowオブジェクト
-// cb===paul.hello
+gorilla.hello(); //=> ウホウホ
 
-// cbにやってくるのはpaulオブジェクトのhelloメソッドの『実行』
-function greet(cb) {
-  // つまリ、Windowオブジェクトに属している状態で関数が実行される。
-  // this===Window　この状態で、参照される関数は、
-  // function () {
-  //   console.log(`Hello, ${ this.name }!`)
-  // }
-  cb();
-}
-greet(paul.hello); //=> Hello, John!
-
-
-// ////////////////////// アロー関数のthis
-
-// アロー関数はレキシカル・スコープを辿ってthisを探す、
-// レキシカル・スコープは、
-// 関数が『定義されている位置』によって決定されるスコープ
-
-window.name = "Nobuyuki";
-
-// アロー関数のthisは『Window』
-const which = () => {
-  console.log(`Here is ${ this.name }`);
-}
-
-const kazue = {
-  name: "Kazue",
-  // この無名関数の『this』は『kazue』
-  here: function () {
-    console.log(`Here is ${ this.name }`);
-  },
-  // ここも、無名関数の『this』は『kazue』
-  callName: function () {
-    // ここでは、アロー関数を呼んでいる。
-    // アロー関数はレキシカル・スコープをたどる。
-    // つまり、このアロー関数が定義されている位置を参照しよるわけ。
-    // となると、『window』となる。
-    which();
-  }
-  //    ちなみに、オブジェクト・リテラル内のメソッドの略記記法は、
-  //    無名関数のメソッド定義と同じ。
-  //    なので通常はこう書く。
-  // callName() {
-  //   which();
-  // }
-}
-
-kazue.here() //=> Here is Kazue
-kazue.callName(); //=> Here is Nobuyuki
+// 関数として実行されている。
+setTimeout(gorilla.hello, 2000); //=> こんにちは
+setTimeout(gorilla.hello.bind(gorilla), 2000); //=> ウホウホ

@@ -558,3 +558,97 @@ const kazue = {
 kazue.here() //=> Here is Kazue
 kazue.callName(); //=> Here is Nobuyuki
 ```
+
+## bindによるthisの束縛
+
+```javascript
+// Windowオブジェクトにnameメソッドを設定。
+window.name = 'Paul';
+
+// これを利用して関数を作成。
+function hello(greeting) {
+  console.log(greeting + this.name);
+}
+
+// 実行。
+hello('こんにちは、'); //=> こんにちは、Paul
+
+// johnオブジェクトのnameメソッドに値を設定。
+const john = {
+  name: 'John'
+}
+
+// thisの参照先をjohnオブジェクトによってthisを束縛して別名保存。
+// 関数名.bind(束縛するオブジェクト、関数に渡す引数（複数可）)
+const helloJohn = hello.bind(john, 'Hello, ');
+helloJohn();
+
+// 関数の引数として渡すコールバック関数でよく使う場面があるかもね。
+window.name = "Nobuyuki";
+
+const kaz = {
+  name: "Kazue",
+  hello: function() {
+    console.log(`こんにちは、${ this.name }`);
+  }
+}
+
+setTimeout(kaz.hello, 3000);
+setTimeout(kaz.hello.bind(kaz), 3000);
+
+// callメソッド
+// 別名保存せず、オブジェクトのthisを束縛して即座に関数を実行する。
+const nob = { name: "nobuyuki"};
+function hello(greeting) {
+  console.log(`${ greeting }, ${ this.name }`)
+}
+hello.call(nob, "Hello");
+
+// applyメソッド
+// 普通に関数を実行した方がいいのでは？
+function hello(greeting, name) {
+  console.log(`${ greeting }, ${ name }`)
+}
+hello.apply(null, ["Hello", "Kazue"]);
+hello("Hello", "Kazue");
+
+// こういう使い方もあるってことで。。。
+const vals = [1,2,3,4,5];
+// 配列の値を欲しいのでこうなるのを。。。
+console.log(Math.max(vals[0], vals[1], vals[2], vals[3], vals[4]));
+// 便利になるのだが。。。
+console.log(Math.max.apply(null, vals));
+// スプレッド演算子を使った方がより便利。。。
+console.log(Math.max(...vals));
+```
+
+## thisの練習
+
+```js
+
+// 関数として実行されている。
+window.greeting = "こんにちは";
+function hello() {
+  console.log(this.greeting);
+}
+hello(); //=> こんにちは
+
+// メソッドとして実行されている。
+const dog = { 
+  greeting: "わんわん",
+  hello: hello
+}
+dog.hello(); //=> わんわん
+
+// 想定外だった。
+// メソッドとして実行されている。
+const gorilla = {
+  greeting: "ウホウホ",
+  hello
+}
+gorilla.hello(); //=> ウホウホ
+
+// 関数として実行されている。
+setTimeout(gorilla.hello, 2000); //=> こんにちは
+setTimeout(gorilla.hello.bind(gorilla), 2000); //=> ウホウホ
+```
