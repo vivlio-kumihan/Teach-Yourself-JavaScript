@@ -744,28 +744,314 @@
 // // スプレッド演算子を使った方がより便利。。。
 // console.log(Math.max(...vals));
 
-// 関数として実行されている。
-window.greeting = "こんにちは";
-function hello() {
-  console.log(this.greeting);
-}
-hello(); //=> こんにちは
+// // 関数として実行されている。
+// window.greeting = "こんにちは";
+// function hello() {
+//   console.log(this.greeting);
+// }
+// hello(); //=> こんにちは
 
-// メソッドとして実行されている。
-const dog = { 
-  greeting: "わんわん",
-  hello: hello
-}
-dog.hello(); //=> わんわん
+// // メソッドとして実行されている。
+// const dog = { 
+//   greeting: "わんわん",
+//   hello: hello
+// }
+// dog.hello(); //=> わんわん
 
-// 想定外だった。
-// メソッドとして実行されている。
-const gorilla = {
-  greeting: "ウホウホ",
-  hello
-}
-gorilla.hello(); //=> ウホウホ
+// // 想定外だった。
+// // メソッドとして実行されている。
+// const gorilla = {
+//   greeting: "ウホウホ",
+//   hello
+// }
+// gorilla.hello(); //=> ウホウホ
 
-// 関数として実行されている。
-setTimeout(gorilla.hello, 2000); //=> こんにちは
-setTimeout(gorilla.hello.bind(gorilla), 2000); //=> ウホウホ
+// // 関数として実行されている。
+// setTimeout(gorilla.hello, 2000); //=> こんにちは
+// setTimeout(gorilla.hello.bind(gorilla), 2000); //=> ウホウホ
+
+
+
+// クラス
+
+// 名前と年齢を引数に取ったらそれをコンソールに出力してくれるクラスを書く。
+// では、すぐにイメージすることは、
+//     * クラスの引数がプロパティになる。
+//     * コンストラクター関数にプロパティを登録。
+//     * メソッドを定義する。
+
+class Profile {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+  call() {
+    console.log(`name: ${ this.name }, age: ${ this.age }`)
+  }
+}
+
+const profile = new Profile("takahiro", 59);
+profile.call();
+
+
+// クラスを使って情報を取得して参照させるやり方はやった。
+// 登録した情報を変更するやり方は何か？
+// メソッドを使う。メソッドの引数に変更したい値を渡す方法。
+
+class Profile {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+  call() {
+    console.log(`name: ${ this.name }, age: ${ this.age }`)
+  }
+  ageChange(age) {
+    this.age = age;
+    console.log(`年齢を${this.age}歳と修正しました。`);
+  }
+}
+
+const profile = new Profile("takahiro", 59);
+profile.call();
+profile.ageChange(18);
+profile.call();
+
+
+// クラス内で定義したメソッドを他のメソッドの中でも使う。
+// メソッド定義では呼ばれたらreturnで値を返すようにして、
+// メソッドを使う場面では、このクラスで定義したメソッドという意味のthisを付与すること。
+
+class Profile {
+  constructor(lastName, firstName, age) {
+    this.lastName = lastName;
+    this.firstName = firstName;
+    this.age = age;
+  }
+  call() {
+    console.log(`name: ${ this.fullName() }, age: ${ this.age }`)
+  }
+  fullName() {
+    return `${this.lastName}${this.firstName}`;
+  }
+  ageChange(age) {
+    this.age = age;
+    console.log(`年齢を${this.age}歳と修正しました。`);
+  }
+}
+
+const pf = new Profile("髙廣", "信之", 59);
+pf.call();
+
+// 練習問題
+// メソッドはどこにでも挿せることを理解する。
+class User {
+  constructor(userName, passWord, roll) {
+    this.userName = userName;
+    this.passWord = passWord;
+    this.roll = roll;
+  }
+
+  login() {
+    this.check();
+    this.rollCheck()
+    console.log(`ログイン [ ${ this.userName} / ${ this.passWord} ]`);
+  }
+  
+  rollCheck() {
+    console.log(this.roll === "admin" ? "管理者権限です。" : "一般ユーザーです。");
+  }
+  
+  check() {
+    console.log("ログイン情報をチェックします。");
+  }
+}
+
+const nob = new User('髙廣', 'hello', "admin");
+nob.login();
+
+
+// 静的メソッドを使う。
+//    プロパティ、メソッドとも先頭にキーワード『static』をつけるだけ。
+
+class Human {
+  // 静的プロパティの定義
+  static TYPE = "common people";
+  // 静的メソッドの定義
+  static stcMove() {
+    console.log(`${ Human.TYPE } walking on foot.`);
+  }
+
+  constructor(name) {
+    this.name = name;
+  }
+
+  move() {
+    console.log(`${ this.name } walking on foot.`);
+  }
+}
+
+const nov = new Human("Takahiro");
+nov.move();
+Human.stcMove();
+
+
+// 静的メソッドをインスタンス・メソッド内から読んでみる。
+//    メソッドの先頭に『this.constractor』をつけるだけ。
+
+class Human {
+  // 静的プロパティの定義
+  static TYPE = "common people";
+  // 静的メソッドの定義
+  static stcMove() {
+    console.log(`${ Human.TYPE } walking on foot.`);
+  }
+
+  constructor(name) {
+    this.name = name;
+  }
+
+  move() {
+    console.log(`${ this.name } walking on foot.`);
+    // インスタンス・メソッド内から静的メソッドを呼ぶ。
+    console.log(this.constructor.stcMove());
+  }
+}
+
+const nov = new Human("Takahiro");
+nov.move();
+
+
+// 練習問題
+// 間違いを正して動かせ。
+
+class StdCls {
+  constructor(arg){
+    this.arg = arg;
+  }
+
+  static printFnc = console.log;
+
+  static print(arg) {
+    StdCls.printFnc(arg);
+  }
+  
+  print() {
+    this.constructor.print(this.arg);
+  }
+}
+
+const std = new StdCls("こんにちは");
+std.print()
+
+
+// ゲッターとセッター
+// 以前、こんなコードを書いていた。
+class Profile {
+  constructor(lastName, firstName) {
+    this.lastName = lastName;
+    this.firstName = firstName;
+  }
+  call() {
+    console.log(`name: ${ this.fullName() }`)
+  }
+  fullName() {
+    return `${this.lastName}${this.firstName}`;
+  }
+}
+
+const pf = new Profile("髙廣", "信之");
+pf.call();
+console.log(pf.fullName());
+
+
+// ゲッターとセッターに置き換えてみる。
+// 　ゲッター
+// 　  通常のメソッド定義に先頭にgetキーワードをつけるだけ。
+// 　  ここが罠→メソッドを呼ぶ時は『（）カッコ』を外す。
+// 　セッター
+// 　  通常のメソッド定義に先頭にsetキーワードをつけるだけ。
+// 　  オブジェクトのプロパティを追加設定する。見通し悪くなるのでは？
+//     一応『_アンダースコア』をつけて外からアクセスしないでねと宣言はする。
+
+class ProfileGetSet {
+  constructor(lastName, firstName) {
+    this.lastName = lastName;
+    this.firstName = firstName;
+  }
+
+  get fullName() {
+    return `${this.lastName}${this.firstName}`;
+  }
+
+  set age(val) {
+    this._age = Number(val);
+  }
+  get age() {
+    return this._age;
+  }
+}
+
+// インスタンスを生成させて、
+const pfGS = new ProfileGetSet("髙廣", "信之");
+// fullNameゲッターメソッドを発火。
+console.log(pfGS.fullName);
+// ageセットメソッドで値を格納して、
+pfGS.age = 59;
+// ageゲッターメソッドを発火。
+console.log(pfGS.age)
+
+
+
+// 練習問題
+
+class ProfileGetSet {
+  constructor(lastName, firstName) {
+    this.lastName = lastName;
+    this.firstName = firstName;
+  }
+
+  get fullName() {
+    return `${this.lastName}${this.firstName}`;
+  }
+
+  set age(val) {
+    this._age = Number(val);
+  }
+  get age() {
+    return this._age;
+  }
+
+  set gender(inputVal) {
+    try {
+      // こうゆう冗長な表現がすぐに思いつくようにならないといけない。
+      // if (inputVal === '男' || inputVal === '女' || inputVal === 'トランスジェンダー') {
+      // 文字が含まれているかどうかの文字に頭が行くから『===』『!==』しか思い浮かばないの、
+      // 『含まれているかどうか』に着目すればこういうリターンができるやろ。
+      if (['男', '女', 'トランスジェンダー'].includes(inputVal)) {
+        this._gender = inputVal;
+      } else {
+        throw new Error("'男', '女', 'トランスジェンダー'のいずれかを入力してください。")
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  get gender() {
+    return this._gender;
+  }
+}
+
+// インスタンスを生成。
+const pfGS = new ProfileGetSet("髙廣", "信之");
+// ゲットメソッドを呼び出し
+console.log(pfGS.fullName);
+// セットメソッドで値の代入
+pfGS.age = 59;
+// ゲットメソッドで参照。
+console.log(pfGS.age);
+
+// 空文字列でエラーをあえて出す。
+pfGS.gender = "";
+console.log(pfGS.gender);
+
