@@ -23,7 +23,6 @@
 > 0b => 2進数
 > 0o => 8進数
 > 0x => 16進数
-
 > 1e3 => 1000
 
 ### 文字列
@@ -945,4 +944,44 @@ console.log(pfGS.age);
 // 空文字列でエラーをあえて出す。
 pfGS.gender = "";
 console.log(pfGS.gender);
+```
+
+# 非同期処理
+
+## メイン・スレッド
+
+JavaScriptはシングル・スレッドの言語。
+
+```javascript
+function sleep(ms) {
+  const startTime = new Date();
+  while(new Date() - startTime < ms);
+  console.log("sleep関数が完了しました。");
+}
+
+sleep(3000);
+
+function clickHandler() {
+  console.log("ボタンが押されました。");
+}
+const btn = document.querySelector("button");
+btn.addEventListener("click", clickHandler);
+```
+
+非同期で動作する関数を使って非同期処理をしてみる。
+
+```javascript
+function sleep(ms) {
+  setTimeout(function() {
+    console.log("sleep関数が完了しました。");
+  }, ms)
+}
+
+sleep(3000);
+
+function clickHandler() {
+  console.log("ボタンが押されました。");
+}
+const btn = document.querySelector("button");
+btn.addEventListener("click", clickHandler);
 ```

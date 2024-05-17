@@ -70,3 +70,64 @@
 // console.log(bool); // => true
 // const bool = fruits.includes("melon");
 // console.log(bool); // => false
+
+
+// let val1 = "hello";
+// let val2 = val1;
+// val2 = "bye";
+// console.log(val1);
+
+// let arr1 = ["hello", "hello"];
+// let arr2 = arr1;
+// arr2 = ["bye", "bye"];
+// console.log(arr1);
+
+
+// const fruit = "apple";
+// fruit = "orange";
+// console.log(fruit);
+
+// console.log("This is Tom's house.");
+// console.log('This is Tom\'s house.');
+
+// console.log(5 + 6 - 1);
+// console.log((5 + 6 - 1) * 2);
+// console.log((5 + 6 - 1) % 3);
+// console.log((5 + 6 - 1) ** 3);
+
+
+// console.log(.3);
+// console.log(1e4);
+// console.log(10n);
+// console.log(1e4 + 10n);
+
+
+
+// function sleep(ms) {
+//   const startTime = new Date();
+//   while(new Date() - startTime < ms);
+//   console.log("sleep関数が完了しました。");
+// }
+
+// sleep(3000);
+
+// function clickHandler() {
+//   console.log("ボタンが押されました。");
+// }
+// const btn = document.querySelector("button");
+// btn.addEventListener("click", clickHandler);
+
+
+// function sleep(ms) {
+//   setTimeout(function() {
+//     console.log("sleep関数が完了しました。");
+//   }, ms)
+// }
+
+// sleep(3000);
+
+// function clickHandler() {
+//   console.log("ボタンが押されました。");
+// }
+// const btn = document.querySelector("button");
+// btn.addEventListener("click", clickHandler);
