@@ -1136,3 +1136,48 @@ async function getData() {
 
 getData();
 ```
+
+## #source要素を2秒毎に1から4の位置に移動させなさい。
+
+```html
+<div id="source">Source</div>
+<section id="section">
+  <div class="wrap">
+    <h1 class="title">
+      <span>title</span>
+    </h1>
+    <ul class="list">
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+    </ul>
+  </div>
+```
+
+```js
+const source = document.querySelector("#source");
+const hOne = document.querySelector(".title");
+const wrap = document.querySelector(".wrap");
+const li = document.querySelector("li");
+
+// 関数は『呼んで』『持ってきて』『発火』させる。『console.log』
+// コールバック関数 => なんかの『処理をした値』を『返す』関数なんだ。『() => {};』
+function moveElement(callback, ms) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      callback();
+      resolve();
+    }, ms);
+  });
+}
+
+async function moveElementTrigger() {
+  await moveElement(() => hOne.prepend(source), 1000);
+  await moveElement(() => hOne.append(source), 1000);
+  await moveElement(() => hOne.after(source), 1000);
+  await moveElement(() => wrap.append(source), 1000);
+  await moveElement(() => li.after(source), 1000);
+}
+
+moveElementTrigger();
+```
