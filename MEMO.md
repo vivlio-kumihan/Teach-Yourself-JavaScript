@@ -134,6 +134,21 @@ greeting.bye();
 //=> bye
 ```
 
+## アロー関数
+
+オブジェクトを出力したい場合、この記述ではエラーになる。
+
+```js
+const result = (num) => { result: num * 2 };
+console.log(result(2));
+```
+
+`()`で囲むこと。
+
+```js
+const result = (num) => ({ result: num * 2 });
+console.log(result(2));
+```
 ## データ型の特徴
 
 * 動的型付け言語
