@@ -463,6 +463,28 @@ function hello(name) {
 setTimeout(hello, 3000, "髙廣");
 ```
 
+コンソール出力させる関数に計算をするコールバック関数を充てる式を書いてみる。
+
+なお、デバッガーを使って変数の流れを追ってみる。
+関数にステップイン、アウトを体験してみる。
+
+```js
+const printCB = (callback, argNum) => {
+  // ステップ・インするとここに来る。
+  // 次にステップ・インすると。。。
+  console.log(callback(argNum));
+};
+
+const calc = (num) => {
+  // ここに来る。でretrunなんでステップ・アウトする。
+  return num * 2;
+};
+// debugger ここからスタート
+// ステップ・オーバーで関数に来たら
+// 関数に入る、ステップ・イン
+printCB(calc, 20);
+```
+
 ## this
 
 ```js

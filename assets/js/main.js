@@ -28,7 +28,12 @@
 //   return num * 2;
 //   };
 
-const result = (num) => { result: num * 2 };
-const result = (num) => ({ result: num * 2 });
-console.log(result(2));
+const printCB = (callback, argNum) => {
+  console.log(callback(argNum));
+};
 
+const calc = (num) => {
+  return num * 2;
+};
+// debugger
+printCB(calc, 20);
