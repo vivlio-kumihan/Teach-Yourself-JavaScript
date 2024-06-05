@@ -11,18 +11,18 @@
 </head>
 
 <body>
-  <div id="todo-container" class="todo">
-    <input type="text" id="create-input" class="todo__create-input" name="">
-    <button id="create-btn" class="todo__create-btn">追加</button>
-    <ul id="todo-list" class="todo__list"></ul>
-  </div>
-  <div class="create">
+  <div id="contanier">
+    <div id="todo-container" class="todo">
+      <input type="text" id="create-input" class="todo__create-input" name="">
+      <button id="create-btn" class="todo__create-btn">追加</button>
+      <ul id="todo-list" class="todo__list"></ul>
+    </div>
   </div>
   <template id="todo-item-tmple">
-    <li class="todo__item-list">
+    <li class="todo__item">
       <span class="todo__item-title"></span>
-      <input type="button" class="todo__item-btn complete" value="完了">
       <input type="button" class="todo__item-btn delete" value="削除">
+      <input type="button" class="todo__item-btn complete" value="完了">
     </li>
   </template>
 </body>

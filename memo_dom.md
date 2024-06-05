@@ -423,7 +423,7 @@ for (const product of products) {
   clone.querySelector(".product__name").textContent = product.name;
   clone.querySelector(".product__description").textContent = product.description;
   clone.querySelector(".product__price").textContent = product.price;
-  // 設定し終わったらtemplate要素は必要ないので中身だ毛を本文の該当箇所へ配置する。
+  // 設定し終わったらtemplate要素は必要ないので中身だけを本文の該当箇所へ配置する。
   productList.appendChild(clone);
 }
 ```

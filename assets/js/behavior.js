@@ -1,133 +1,96 @@
-// // //////
-// // push, unshift, pop, shift
-// //
-// const fruits = ["banana", "orange", "apple"];
+const template = document.getElementById("todo-item-tmple").content;
+const todoList = document.querySelector("#todo-list");
+console.log(todoList);
 
-// // push
-// fruits.push("grape");
-// console.log(fruits); // => ["banana", "orange", "apple", "grape"] 
+const createTodoItem = (value) => {
+  const newItem = template.cloneNode(true);
+  const newTitle = newItem.querySelector(".todo__item-title"); 
+  console.log(newTitle);
+  newTitle.textContent = value;
+  todoList.append(newItem);
+}
 
-// // unshift
-// fruits.unshift("mikan");
-// console.log(fruits); // => ["mikan", "banana", "orange", "apple", "grape"] 
+createTodoItem("1つ目"); 
+createTodoItem("2つ目");
+createTodoItem("3つ目");
 
-// // pop
-// fruits.pop();
-// console.log(fruits); // => ['mikan', 'banana', 'orange', 'apple']
+// const deleteTodoItem = (item) => {
+//   item.remove();
+// };
 
-// // shift
-// fruits.shift();
-// console.log(fruits); // => ['banana', 'orange', 'apple']
+// const compTodoItem = (item) => {
+//   item.classList.toggle("processed")
+// };
 
-// // //////
-// // splice, slice
-// //
-// const arr = [1,2,3,4,5,6,7,8,9,10];
+// setTimeout(() => {
+//   compTodoItem(todoList.firstElementChild);
+// }, 2000);
+// console.log(todoList);
 
-// // splice
-// // インデックス番号nから、インデックス番号nを起点にn個を選択して取る。
-// const spliceResult = arr.splice(2, 7);
-// console.log(spliceResult); // => [3, 4, 5, 6, 7, 8, 9]
-// console.log(arr);    // => [1, 2, 10]
+// const template = document.getElementById("todo-item-tmple").content;
+// const todoList = document.querySelector("#todo-list");
 
-// // slice
-// // インデックス番号nから、1番目の要素を起点にn個を選択して取る。
-// const sliceResult = arr.slice(2, 7);
-// console.log(sliceResult); // => [3, 4, 5, 6, 7]
-// console.log(arr);    // => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+// const createTodoItem = (title) => {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       if (title === "") {
+//         reject();
+//       } else {
+//         const newItem = template.cloneNode(true);
+//         const newTitle = newItem.querySelector(".todo__item-title"); 
+//         newTitle.textContent = title;
+//         todoList.append(newItem);
+//         resolve();
+//       }
+//     }, 1000);
+//   });
+// };
 
+// async function createList() {
+//   try { 
+//     await createTodoItem("1つ目"); 
+//     await createTodoItem("2つ目");
+//     await createTodoItem("3つ目");
+//     await createTodoItem("4つ目");
+//     await createTodoItem("");
+//     await createTodoItem("5つ目");
+//   } catch (error) {
+//     console.error("error: 空文字列です。処理を中断しました。");
+//   } finally {
+//     console.log("処理は終了しました。");
+//   }
+// };
 
-// // //////
-// // concat
-// //
-// // 結合
-// const fruits = ["banana", "orange", "apple"];
-// const newFruits = fruits.concat(["melon", "grape"]);
-// console.log(newFruits);
-
-// // 複製
-// const newFruits = fruits.concat();
-// newFruits.push("lemmon");
-// console.log(newFruits);
-// console.log(fruits);
-
-
-// // //////
-// // indexOf
-// // 最初に一致した添え字を返す
-// // 最後まで検索したがなかったので『最後 === -1』を返す。
-// const fruits = ["banana", "orange", "apple"];
-// const result = fruits.indexOf("apple");
-// console.log(result); // => 2
-// const result = fruits.indexOf("melon");
-// console.log(result); // => -1
-
-// // //////
-// // include
-// //
-// const fruits = ["banana", "orange", "apple"];
-// const bool = fruits.includes("apple");
-// console.log(bool); // => true
-// const bool = fruits.includes("melon");
-// console.log(bool); // => false
+// createList()
 
 
-// let val1 = "hello";
-// let val2 = val1;
-// val2 = "bye";
-// console.log(val1);
+// データを配列にしないとダメなのではと思う。
+// このコードは残す。
 
-// let arr1 = ["hello", "hello"];
-// let arr2 = arr1;
-// arr2 = ["bye", "bye"];
-// console.log(arr1);
+// const template = document.getElementById("todo-item-tmple").content;
+// const todoList = document.getElementById("todo-list");
 
+// let todos = [
+//   "買い物をする", "掃除する", "仕事する", "食事する"
+// ];
 
-// const fruit = "apple";
-// fruit = "orange";
-// console.log(fruit);
+// const createTodoItem = (title) => {
+//   todos.push(title);
+// };
+// createTodoItem("bye");
 
-// console.log("This is Tom's house.");
-// console.log('This is Tom\'s house.');
+// const removeTodoItem = (arr, idx) => {
+//   return arr.filter((_, i) => i !== idx);
+// };
+// todos = removeTodoItem(todos, 2);
 
-// console.log(5 + 6 - 1);
-// console.log((5 + 6 - 1) * 2);
-// console.log((5 + 6 - 1) % 3);
-// console.log((5 + 6 - 1) ** 3);
+// const compTodoItem = () => {
+//   const compBtn = document.querySelector("todo__item-btn.complete");
+//   compBtn.classList.add("processed");
+// };
 
-
-// console.log(.3);
-// console.log(1e4);
-// console.log(10n);
-// console.log(1e4 + 10n);
-
-
-
-// function sleep(ms) {
-//   const startTime = new Date();
-//   while(new Date() - startTime < ms);
-//   console.log("sleep関数が完了しました。");
+// for (const todo of todos) {
+//   const clone = template.cloneNode(true);
+//   clone.querySelector(".todo__item-title").textContent = todo;
+//   todoList.appendChild(clone);
 // }
-
-// sleep(3000);
-
-// function clickHandler() {
-//   console.log("ボタンが押されました。");
-// }
-// const btn = document.querySelector("button");
-// btn.addEventListener("click", clickHandler);
-
-
-// function sleep(ms) {
-//   setTimeout(function() {
-//     console.log("sleep関数が完了しました。");
-//   }, ms)
-// }
-
-// sleep(3000);
-
-// function clickHandler() {
-//   console.log("ボタンが押されました。");
-// }
-// const btn = document.querySelector("button");
-// btn.addEventListener("click", clickHandler);
