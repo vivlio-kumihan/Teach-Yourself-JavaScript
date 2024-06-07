@@ -471,6 +471,35 @@ for(const child of childrenElems) {
   child.style.color = child.dataset.color;
 }
 ```
+
+__datasetでいい例題__
+
+マウスをホバーして色を変化させる。
+
+```HTML
+<div id="container" data-mouseenter="purple" data-mouseleave="">
+  <button id="target" data-mouseenter="green" data-mouseleave=""></button>
+</div>
+```
+
+```js
+const container = document.querySelector("#container");
+const target = document.querySelector("#target");
+
+const setEvent = (elem) => {
+  const dataSets = Object.entries(elem.dataset);
+  for (const [entryType, color] of dataSets) {
+    elem.addEventListener(entryType, () => {
+      elem.style.backgroundColor = color;
+    });
+  }
+};
+
+setEvent(container);
+setEvent(target);
+```
+
+
 add, remove, toggle, containsをまとめる
 
 # 練習問題

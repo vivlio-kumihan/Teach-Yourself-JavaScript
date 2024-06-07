@@ -1,39 +1,34 @@
-// // fetch("sample.json")
-// //   .then((response) => response.json())
-// //   .then((data) => {
-// //     for(const { key, value } of data) {
-// //       console.log(`${ key }: ${ value }`);
-// //     }
-// //   });
 
-// // async function myFetch() {
-// //   const response = await fetch("sample.json");
-// //   const data = await response.json();
-// //   for(const { key, value } of data) {
-// //     console.log(`${ key }: ${ value }`);
-// //   }
-// // }
-// // myFetch();
 
-// function fetchJSON(file) {
-//   return fetch(file).then((res) => res.json());
-// }
+// container.addEventListener("mouseenter", () => {
+//   const bgColor = container.getAttribute("data-mouseenter")
+//   container.style.backgroundColor = bgColor;
+//   });
+  
+// container.addEventListener("mouseleave", () => {
+//   container.style.backgroundColor = "";
+// });
+    
+// target.addEventListener("mouseenter", () => {
+//   const bgColor = target.getAttribute("data-mouseenter")
+//   target.style.backgroundColor = bgColor;
+// });
 
-// async function main() {
-//   const fruits = await fetchJSON("fruit.json")
-// }
+// target.addEventListener("mouseleave", () => {
+//   target.style.backgroundColor = "";
+// });
 
-// const result = (num) => {
-//   console.log(num)
-//   return num * 2;
-//   };
+const container = document.querySelector("#container");
+const target = document.querySelector("#target");
 
-const printCB = (callback, argNum) => {
-  console.log(callback(argNum));
+const setEvent = (elem) => {
+  const dataSets = Object.entries(elem.dataset);
+  for (const [entryType, color] of dataSets) {
+    elem.addEventListener(entryType, () => {
+      elem.style.backgroundColor = color;
+    });
+  }
 };
 
-const calc = (num) => {
-  return num * 2;
-};
-// debugger
-printCB(calc, 20);
+setEvent(container);
+setEvent(target);

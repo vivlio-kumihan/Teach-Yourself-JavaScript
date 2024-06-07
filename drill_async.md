@@ -61,6 +61,8 @@ fetchData(console.log, "hello", 1000)
   .catch((error) => {
     console.error(`error: ${ error }`)
   });
+
+  
 ```
 
 ## async, awitを使う

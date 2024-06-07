@@ -1,6 +1,5 @@
 const template = document.getElementById("todo-item-tmple").content;
 const todoList = document.querySelector("#todo-list");
-console.log(todoList);
 
 const createTodoItem = (value) => {
   const newItem = template.cloneNode(true);
@@ -14,18 +13,19 @@ createTodoItem("1つ目");
 createTodoItem("2つ目");
 createTodoItem("3つ目");
 
-// const deleteTodoItem = (item) => {
-//   item.remove();
-// };
+const deleteTodoItem = (item) => {
+  item.remove();
+};
 
-// const compTodoItem = (item) => {
-//   item.classList.toggle("processed")
-// };
+const compTodoItem = (item) => {
+  item.classList.toggle("processed")
+};
 
 // setTimeout(() => {
 //   compTodoItem(todoList.firstElementChild);
 // }, 2000);
-// console.log(todoList);
+
+
 
 // const template = document.getElementById("todo-item-tmple").content;
 // const todoList = document.querySelector("#todo-list");

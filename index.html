@@ -7,24 +7,26 @@
   <title>Main File</title>
   <link rel="stylesheet" href="https://unpkg.com/destyle.css@4.0.0/destyle.min.css">
   <link rel="stylesheet" href="./assets/css/style.css">
-  <script src="./assets/js/behavior.js" defer></script>
+  <script src="./assets/js/main.js" defer></script>
 </head>
 
 <body>
-  <div id="todo-container" class="todo">
-    <input type="text" id="create-input" class="todo__create-input" name="">
-    <button id="create-btn" class="todo__create-btn">追加</button>
-    <ul id="todo-list" class="todo__list"></ul>
+  <!-- <div class="container">
+    <div>この要素の色が変わります。</div>
+    <button id="color">文字色の変更</button>
+    <button id="bg-color">背景色の変更</button>
+    <button id="all-color">文字色と背景色の変更</button>
+    <button id="reset-color">リセット</button>
+  </div> -->
+  <!-- <div class="container">
+    <div>この要素の色が変わります。</div>
+    <button id="color">文字色の変更</button> -->
+  <div class="wrapper">
+    <div id="container" data-mouseenter="purple" data-mouseleave="">
+      <button id="target" data-mouseenter="green" data-mouseleave=""></button>
+    </div>
   </div>
-  <div class="create">
-  </div>
-  <template id="todo-item-tmple">
-    <li class="todo__item-list">
-      <span class="todo__item-title"></span>
-      <input type="button" class="todo__item-btn complete" value="完了">
-      <input type="button" class="todo__item-btn delete" value="削除">
-    </li>
-  </template>
+
 </body>
 
 </html>
