@@ -1,0 +1,56 @@
+.todo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 90%;
+  height: 100vh;
+  margin: 100px auto 0;
+  font-size: 15px;
+}
+.todo__create-input, .todo__create-btn {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+}
+.todo__create-input {
+  border: 1px solid #aaa;
+}
+.todo__create-btn {
+  font-weight: 900;
+  text-align: center;
+  background-color: antiquewhite;
+}
+.todo__item-list {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.todo__item-list:not(:first-of-type) {
+  margin-top: 10px;
+}
+.todo__item-list.processed > .todo__item-title, .todo__item-list.processed > .todo__item-btn.complete {
+  opacity: 0.3;
+}
+.todo__item:not(:first-of-type) {
+  margin-top: 10px;
+}
+.todo__item-title {
+  flex-basis: 70%;
+  font-size: 1.1em;
+}
+.todo__item-btn {
+  flex-basis: 15%;
+  text-align: center;
+  padding: 5px 10px;
+  font-size: 0.85em;
+  font-weight: 900;
+  color: #fff;
+  border-radius: 5px;
+}
+.todo__item-btn.delete {
+  background-color: #777;
+}
+.todo__item-btn.complete {
+  background-color: green;
+}/*# sourceMappingURL=style.css.map */
